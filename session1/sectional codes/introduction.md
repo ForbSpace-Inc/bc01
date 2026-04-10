@@ -18,7 +18,8 @@ To reach Mars, you must master these six essential systems. Mastery of these ens
 
 ```mermaid
 graph TD
-    A[🚀 Start: Ground Control] --> B{Building Blocks}
+    %% Node Definitions
+    A[🚀 Start: Ground Control] --> B{Mission Systems}
     B --> B1[💬 Hello World]
     B --> B2[📦 Variables]
     B --> B3[🎙️ User Input]
@@ -27,14 +28,17 @@ graph TD
     B --> B6[🔄 Loops]
     B1 & B2 & B3 & B4 & B5 & B6 --> C[🛰️ Ready for Orbit!]
     
-    style A fill:#f9f,stroke:#333,stroke-width:4px
-    style C fill:#00ff00,stroke:#333,stroke-width:4px
-    style B1 fill:#00aaff,stroke:#000
-    style B2 fill:#55ff55,stroke:#000
-    style B3 fill:#ffaa00,stroke:#000
-    style B4 fill:#ff5555,stroke:#000
-    style B5 fill:#aa00ff,stroke:#000
-    style B6 fill:#ff00aa,stroke:#000
+    %% Style Definitions
+    classDef initial fill:#2d3436,stroke:#00d2ff,stroke-width:2px,color:#fff
+    classDef process fill:#2d3436,stroke:#fab1a0,stroke-width:1px,color:#fff
+    classDef ready fill:#2d3436,stroke:#55efc4,stroke-width:2px,color:#fff
+    classDef logic fill:#2d3436,stroke:#a29bfe,stroke-width:1px,color:#fff
+
+    %% Assign Classes
+    class A initial
+    class C ready
+    class B,B1,B2,B3,B4 process
+    class B5,B6 logic
 ```
 
 ---
