@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bootcamp Resources | Documentation</title>
     <meta name="description" content="Documentation and learning materials for the Data Engineering Bootcamp.">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=2">
+    <link rel="shortcut icon" href="/favicon.ico?v=2">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -207,16 +209,16 @@
         }
 
         .copy-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #94a3b8;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #f8fafc;
             padding: 0.4rem 0.8rem;
             border-radius: 0.5rem;
             font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
-            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         .copy-btn:hover {
@@ -235,6 +237,37 @@
 
         #markdown-content blockquote { border-left: 4px solid var(--accent); padding-left: 1rem; background: #eff6ff; padding: 1rem; border-radius: 0 0.5rem 0.5rem 0; color: #1e40af; margin-bottom: 1.25rem; }
         #markdown-content img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1rem 0; }
+        
+        /* Checkbox styling */
+        #markdown-content input[type="checkbox"] {
+            width: 1.15rem;
+            height: 1.15rem;
+            margin-right: 0.75rem;
+            cursor: pointer;
+            vertical-align: middle;
+            accent-color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        #markdown-content li:has(input[type="checkbox"]) {
+            list-style: none;
+            margin-left: -1.5rem;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            transition: var(--transition);
+        }
+
+        #markdown-content li:has(input[type="checkbox"]):hover {
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .checklist-done {
+            opacity: 0.6;
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
 
         /* Download Section */
         .download-footer {
@@ -265,6 +298,60 @@
             opacity: 0.9;
         }
 
+        /* Documentation & Concepts */
+        .doc-section {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--accent);
+            border-radius: 0.75rem;
+            color: #334155;
+            position: relative;
+        }
+
+        .doc-section::before {
+            content: "LEARNING GUIDE";
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--accent);
+            color: white;
+            padding: 0.2rem 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 800;
+            border-radius: 20px;
+            letter-spacing: 0.05em;
+        }
+
+        .doc-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .doc-item {
+            margin-bottom: 1rem;
+        }
+
+        .doc-label {
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+            display: block;
+            color: var(--text-secondary);
+        }
+
+        .doc-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
         /* Mobile responsive */
         @media (max-width: 768px) {
             body { flex-direction: column; }
@@ -278,8 +365,8 @@
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <h1>Bootcamp 01 April 2026</h1>
-            <p>Forbspace cafe`</p>
+            <h1>ForbSpace Bootcamp 2026</h1>
+            <p>Your journey into the world of coding starts here!</p>
         </div>
 
         <nav id="sidebar-nav">
@@ -291,13 +378,13 @@
 
             <!-- Session 2 -->
             <div class="nav-group">
-                <div class="nav-title">Session 2: Data Takeoff</div>
+                <div class="nav-title" onclick="loadFile(sessions.s2_intro, 'Session 2')">Session 2: Data Takeoff</div>
                 <ul class="nav-list" id="session2-list"></ul>
             </div>
 
             <!-- Session 3 -->
             <div class="nav-group">
-                <div class="nav-title">Session 3: Geospatial</div>
+                <div class="nav-title" onclick="loadFile(sessions.s3_intro, 'Session 3')">Session 3: Geospatial</div>
                 <ul class="nav-list" id="session3-list"></ul>
             </div>
         </nav>
@@ -326,15 +413,111 @@
 
         const sessions = {
             s1_intro: { name: 'introduction.md', path: 'session1/sectional_codes/introduction.md', type: 'md' },
+            s2_intro: { name: 'introduction.md', path: 'session2/introduction.md', type: 'md' },
+            s3_intro: { name: 'introduction.md', path: 'session3_part/introduction.md', type: 'md' },
             s1: [
+                { 
+                    name: '01_hello_world.py', 
+                    path: 'session1/sectional_codes/01_hello_world.py', 
+                    type: 'code',
+                    instructions: {
+                        concepts: 'Every coder starts with "Hello World"!<br>1. <b>print()</b> is a command that talks to you.<br>2. Quotes (<b>""</b>) tell Python: "This is a sentence, not code."',
+                        activity: 'Try changing the message to <i>"Hello, my name is [Your Name]"</i>',
+                        pitfalls: '1. Forgetting brackets <code>print "Hi"</code><br>2. Mixing up quotes <code>"Hi\'</code>',
+                        solution: 'Always: <code>print("Text goes here")</code>'
+                    }
+                },
+                { 
+                    name: '02a_profile_card.py', 
+                    path: 'session1/sectional_codes/02a_profile_card.py', 
+                    type: 'code',
+                    instructions: {
+                        concepts: 'A <b>Variable</b> is like a box with a label.<br>1. The label is the name (e.g., <code>name</code>).<br>2. The box holds the value (e.g., <code>"Alex"</code>).<br>3. Use <b>=</b> to put things in the box!',
+                        pitfalls: '1. Putting spaces in labels (e.g., <code>my name = "Alex"</code>)<br>2. Forgetting the equals sign.',
+                        solution: 'Label = "Value" (No spaces in labels!)'
+                    }
+                },
+                { 
+                    name: '02b_future_age.py', 
+                    path: 'session1/sectional_codes/02b_future_age.py', 
+                    type: 'code',
+                    instructions: {
+                        concepts: 'Variables can also hold <b>Numbers</b>!<br>1. Numbers don\'t need quotes.<br>2. Use symbols for math: <b>+</b> (add), <b>-</b> (subtract), <b>*</b> (multiply), <b>/</b> (divide).',
+                        pitfalls: 'Writing <code>"20"</code> instead of <code>20</code>. Quotes make it text, so you can\'t do math on it!',
+                        solution: 'Quotes = Text, No Quotes = Number.'
+                    }
+                },
+                { 
+                    name: '02c_lists_dicts.py', 
+                    path: 'session1/sectional_codes/02c_lists_dicts.py', 
+                    type: 'code',
+                    instructions: {
+                        concepts: 'Storing lots of items at once:<br>1. <b>Lists</b> [ ]: Like a shopping list. Ordered items in square brackets.<br>2. <b>Dictionaries</b> { }: Like a phonebook. Key-Value pairs (e.g., "Name": "Alex").',
+                        pitfalls: '1. Using the wrong brackets.<br>2. Forgetting commas between items.',
+                        solution: 'Lists use <b>[ ]</b>, Dictionaries use <b>{ }</b>'
+                    }
+                },
+                { 
+                    name: '03_user_input.py', 
+                    path: 'session1/sectional_codes/03_user_input.py', 
+                    type: 'code',
+                    instructions: {
+                        concepts: 'Make your code interactive!<br>1. <b>input()</b> stops the program and waits for the human to type.<br>2. Whatever they type gets stored in a variable.',
+                        pitfalls: 'Forgetting the prompt message inside <code>input("Prompt here")</code>.',
+                        solution: 'variable = input("What is your name? ")'
+                    }
+                },
+                { 
+                    name: '04_math_operations.py', 
+                    path: 'session1/sectional_codes/04_math_operations.py', 
+                    type: 'code',
+                    instructions: {
+                        concepts: 'Converting text to numbers:<br>1. <code>input()</code> always gives you text (even if you type 25).<br>2. <b>int()</b> turns that text into a math-ready number!',
+                        pitfalls: 'Trying to add a text number <code>"5" + 10</code>. This causes an error!',
+                        solution: 'Use <code>int(variable)</code> before doing math.'
+                    }
+                },
+                { 
+                    name: '05_if_else.py', 
+                    path: 'session1/sectional_codes/05_if_else.py', 
+                    type: 'code',
+                    instructions: {
+                        concepts: '<b>Making Decisions:</b><br>1. <b>if</b>: If this is true, do this.<br>2. <b>elif</b>: If not the first one, try this instead.<br>3. <b>else</b>: Otherwise, do this last thing.<br>4. <b>Nested If</b>: A decision inside another decision.',
+                        activity: '<b>Handy Symbols (Inequalities):</b><br><code>==</code> Equal to<br><code>!=</code> Not equal to<br><code>></code> Greater than<br><code><</code> Less than',
+                        pitfalls: '1. Using <code>=</code> instead of <code>==</code>.<br>2. Indentation! Always press <b>TAB</b> after the colon (<b>:</b>).',
+                        solution: 'If (condition): [TAB] action'
+                    }
+                },
+                { 
+                    name: '06_loops.py', 
+                    path: 'session1/sectional_codes/06_loops.py', 
+                    type: 'code',
+                    instructions: {
+                        concepts: '<b>For Loops:</b> Use these when you know how many times to repeat.<br>1. <code>range(5)</code>: Repeat 5 times.<br>2. Great for lists and counting.',
+                        pitfalls: 'Indent everything you want inside the loop. Code outside the indent only runs once at the end.',
+                        solution: 'For i in range(x): [TAB] actions'
+                    }
+                },
+                { 
+                    name: '06b_while_loops.py', 
+                    path: 'session1/sectional_codes/06b_while_loops.py', 
+                    type: 'code',
+                    instructions: {
+                        concepts: '<b>While Loops:</b> Repeat as long as a condition is true.<br><b>School Analogy:</b> Stay in class WHILE the bell hasn\'t rung.',
+                        pitfalls: '<b>Infinite Loops!</b> If the condition never becomes false, the computer never stops. Remember to update your variable!',
+                        solution: 'While (condition): [TAB] change variable'
+                    }
+                },
+                { 
+                    name: '07_smart_greeting.py', 
+                    path: 'session1/sectional_codes/07_smart_greeting.py', 
+                    type: 'code',
+                    instructions: {
+                        concepts: '<b>Graduation Project!</b><br>This combines everything: Variables, Input, Math, Logic, and Loops into one smart assistant.',
+                        activity: 'Run the code and see if you can "break" it with different inputs!'
+                    }
+                },
                 { name: 'summary.md', path: 'session1/sectional_codes/summary.md', type: 'md' },
-                { name: '01_hello_world.py', path: 'session1/sectional_codes/01_hello_world.py', type: 'code' },
-                { name: '02_variables.py', path: 'session1/sectional_codes/02_variables.py', type: 'code' },
-                { name: '03_user_input.py', path: 'session1/sectional_codes/03_user_input.py', type: 'code' },
-                { name: '04_math_operations.py', path: 'session1/sectional_codes/04_math_operations.py', type: 'code' },
-                { name: '05_if_else.py', path: 'session1/sectional_codes/05_if_else.py', type: 'code' },
-                { name: '06_loops.py', path: 'session1/sectional_codes/06_loops.py', type: 'code' },
-                { name: '07_section1_summary.py', path: 'session1/sectional_codes/07_section1_summary.py', type: 'code' },
                 { name: 'whole_section.py', path: 'session1/sectional_codes/whole_section.py', type: 'code' }
             ],
             s2: [
@@ -359,7 +542,7 @@
 
         function renderSidebar() {
             Object.keys(sessions).forEach(key => {
-                if (key === 's1_intro') return;
+                if (key.includes('_intro')) return;
                 const list = document.getElementById(`${key.replace('s', 'session')}-list`);
                 sessions[key].forEach(file => {
                     const li = document.createElement('li');
@@ -408,6 +591,31 @@
                 
                 document.body.removeChild(textArea);
             }
+        }
+
+        function setupCheckboxes(filePath) {
+            const checkboxes = document.querySelectorAll('#markdown-content input[type="checkbox"]');
+            checkboxes.forEach((cb, index) => {
+                // Remove disabled attribute to make it interactive
+                cb.removeAttribute('disabled');
+                
+                const parentLi = cb.closest('li');
+                const key = `progress-${filePath}-${index}`;
+                
+                // Load state
+                const isChecked = localStorage.getItem(key) === 'true';
+                cb.checked = isChecked;
+                if (isChecked && parentLi) parentLi.classList.add('checklist-done');
+                
+                // Add event listener
+                cb.addEventListener('change', () => {
+                    localStorage.setItem(key, cb.checked);
+                    if (parentLi) {
+                        if (cb.checked) parentLi.classList.add('checklist-done');
+                        else parentLi.classList.remove('checklist-done');
+                    }
+                });
+            });
         }
 
         function showSuccess(btn) {
@@ -474,6 +682,9 @@
                         block.parentElement.replaceWith(div);
                     });
                     if (mermaidBlocks.length > 0) await mermaid.run();
+                    
+                    // Initialize interactive checkboxes
+                    setupCheckboxes(file.path);
                 } else if (file.type === 'code') {
                     // Update global state for copy function
                     window.currentCode = text;
@@ -494,6 +705,38 @@
                                 Download .py File
                             </a>
                         </div>
+                        ${file.instructions ? `
+                            <div class="doc-section">
+                                <h3>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                                    Coding Concepts & Documentation
+                                </h3>
+                                ${file.instructions.concepts ? `
+                                    <div class="doc-item">
+                                        <span class="doc-label">Key Concepts</span>
+                                        <div class="doc-text">${file.instructions.concepts}</div>
+                                    </div>
+                                ` : ''}
+                                ${file.instructions.activity ? `
+                                    <div class="doc-item">
+                                        <span class="doc-label">Next Steps</span>
+                                        <div class="doc-text">${file.instructions.activity}</div>
+                                    </div>
+                                ` : ''}
+                                ${file.instructions.pitfalls ? `
+                                    <div class="doc-item">
+                                        <span class="doc-label">Common Pitfalls</span>
+                                        <div class="doc-text">${file.instructions.pitfalls}</div>
+                                    </div>
+                                ` : ''}
+                                ${file.instructions.solution ? `
+                                    <div class="doc-item">
+                                        <span class="doc-label">The Fix</span>
+                                        <div class="doc-text">${file.instructions.solution}</div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        ` : ''}
                     `;
                 } else {
                     contentDiv.innerHTML = `
