@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Marked.js for Markdown rendering -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
     <!-- Mermaid.js for diagrams -->
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <!-- Prism.js for code highlighting -->
@@ -322,27 +322,20 @@
         // Initialize Mermaid
         mermaid.initialize({ startOnLoad: false, theme: 'default' });
 
-        // Configure Marked.js to open all links in a new tab
-        const renderer = new marked.Renderer();
-        const linkRenderer = renderer.link.bind(renderer);
-        renderer.link = (href, title, text) => {
-            const html = linkRenderer(href, title, text);
-            return html.replace(/^<a /, '<a target="_blank" rel="noopener noreferrer" ');
-        };
-        marked.use({ renderer });
+        // No custom renderer needed - we'll post-process links after parsing
 
         const sessions = {
-            s1_intro: { name: 'introduction.md', path: 'session1/sectional codes/introduction.md', type: 'md' },
+            s1_intro: { name: 'introduction.md', path: 'session1/sectional_codes/introduction.md', type: 'md' },
             s1: [
-                { name: 'summary.md', path: 'session1/sectional codes/summary.md', type: 'md' },
-                { name: '01_hello_world.py', path: 'session1/sectional codes/01_hello_world.py', type: 'code' },
-                { name: '02_variables.py', path: 'session1/sectional codes/02_variables.py', type: 'code' },
-                { name: '03_user_input.py', path: 'session1/sectional codes/03_user_input.py', type: 'code' },
-                { name: '04_math_operations.py', path: 'session1/sectional codes/04_math_operations.py', type: 'code' },
-                { name: '05_if_else.py', path: 'session1/sectional codes/05_if_else.py', type: 'code' },
-                { name: '06_loops.py', path: 'session1/sectional codes/06_loops.py', type: 'code' },
-                { name: '07_section1_summary.py', path: 'session1/sectional codes/07_section1_summary.py', type: 'code' },
-                { name: 'whole_section.py', path: 'session1/sectional codes/whole_section.py', type: 'code' }
+                { name: 'summary.md', path: 'session1/sectional_codes/summary.md', type: 'md' },
+                { name: '01_hello_world.py', path: 'session1/sectional_codes/01_hello_world.py', type: 'code' },
+                { name: '02_variables.py', path: 'session1/sectional_codes/02_variables.py', type: 'code' },
+                { name: '03_user_input.py', path: 'session1/sectional_codes/03_user_input.py', type: 'code' },
+                { name: '04_math_operations.py', path: 'session1/sectional_codes/04_math_operations.py', type: 'code' },
+                { name: '05_if_else.py', path: 'session1/sectional_codes/05_if_else.py', type: 'code' },
+                { name: '06_loops.py', path: 'session1/sectional_codes/06_loops.py', type: 'code' },
+                { name: '07_section1_summary.py', path: 'session1/sectional_codes/07_section1_summary.py', type: 'code' },
+                { name: 'whole_section.py', path: 'session1/sectional_codes/whole_section.py', type: 'code' }
             ],
             s2: [
                 { name: 'session2_python_takeoff.ipynb', path: 'session2/session2_python_takeoff.ipynb', type: 'notebook' },
@@ -379,17 +372,52 @@
         }
 
         async function copyToClipboard(btn) {
+            const textToCopy = window.currentCode;
+            if (!textToCopy) return;
+
             try {
-                await navigator.clipboard.writeText(window.currentCode);
-                btn.textContent = 'Copied!';
-                btn.classList.add('copied');
-                setTimeout(() => {
-                    btn.textContent = 'Copy';
-                    btn.classList.remove('copied');
-                }, 2000);
+                // Check if Clipboard API is supported and available (requires secure context)
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(textToCopy);
+                    showSuccess(btn);
+                } else {
+                    throw new Error('Clipboard API unavailable');
+                }
             } catch (err) {
-                console.error('Failed to copy!', err);
+                // Fallback for non-secure contexts (like file:// protocol)
+                const textArea = document.createElement("textarea");
+                textArea.value = textToCopy;
+                
+                // Ensure textarea is not visible but part of DOM
+                textArea.style.position = "fixed";
+                textArea.style.left = "-9999px";
+                textArea.style.top = "0";
+                document.body.appendChild(textArea);
+                
+                textArea.focus();
+                textArea.select();
+                
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) showSuccess(btn);
+                    else btn.textContent = 'Error';
+                } catch (fallbackErr) {
+                    console.error('Fallback copy failed', fallbackErr);
+                    btn.textContent = 'Error';
+                }
+                
+                document.body.removeChild(textArea);
             }
+        }
+
+        function showSuccess(btn) {
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
         }
 
         async function loadFile(file, sessionName) {
@@ -417,12 +445,25 @@
             contentDiv.innerHTML = '<p style="color: var(--text-secondary)">Loading...</p>';
 
             try {
-                const response = await fetch(file.path);
-                if (!response.ok) throw new Error('File not found');
+                // Use root-relative path to avoid resolution issues with query strings or base URL changes
+                const fetchPath = file.path.startsWith('/') ? file.path : '/' + file.path;
+                const response = await fetch(fetchPath, { cache: 'no-store' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 const text = await response.text();
 
                 if (file.type === 'md') {
-                    contentDiv.innerHTML = marked.parse(text);
+                    try {
+                        contentDiv.innerHTML = marked.parse(text);
+                    } catch (parseErr) {
+                        // Fallback: render as plain preformatted text if markdown parsing fails
+                        console.warn('marked.parse failed, falling back to plain text:', parseErr);
+                        contentDiv.innerHTML = `<pre style="white-space:pre-wrap;font-family:inherit;">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`;
+                    }
+                    // Open all links in a new tab
+                    contentDiv.querySelectorAll('a[href]').forEach(a => {
+                        a.setAttribute('target', '_blank');
+                        a.setAttribute('rel', 'noopener noreferrer');
+                    });
                     
                     // Post-process for Mermaid
                     const mermaidBlocks = contentDiv.querySelectorAll('pre code.language-mermaid');
@@ -467,13 +508,31 @@
                     `;
                 }
             } catch (err) {
+                const isLocal = window.location.protocol === 'file:';
+                let errorTitle, errorMessage;
+                if (err.message.includes('HTTP')) {
+                    errorTitle = '⚠️ File Not Found';
+                    errorMessage = `The file <code>${file.path}</code> could not be located on the server (${err.message}).`;
+                } else if (isLocal) {
+                    errorTitle = '⚠️ Access Restriction';
+                    errorMessage = 'CORS policy prevents fetching local files directly in some browsers. Please use a local server (e.g. VS Code Live Server) or download the file.';
+                } else {
+                    errorTitle = '⚠️ Network Error';
+                    errorMessage = `Could not load <code>${file.path}</code>. Check that the file exists and the server is reachable.<br><small style="opacity:0.7">${err.message}</small>`;
+                }
+
                 contentDiv.innerHTML = `
-                    <div style="text-align:center; padding: 3rem; background: #fff1f2; color: #991b1b; border-radius: 1rem; border: 1px solid #fecaca;">
-                        <h3>⚠️ Access Restriction</h3>
-                        <p style="margin-top: 0.5rem;">CORS policy prevents fetching local files directly in some browsers. Please host this folder on a server or download the file instead.</p>
-                        <a href="${file.path}" download class="download-btn-small" style="margin-top: 1.5rem; background: #991b1b;">
-                            Download File
-                        </a>
+                    <div style="text-align:center; padding: 3rem; background: #fff1f2; color: #991b1b; border-radius: 1rem; border: 1px solid #fecaca; max-width: 600px; margin: 3rem auto;">
+                        <h3 style="margin-bottom: 1rem;">${errorTitle}</h3>
+                        <p style="margin-bottom: 1.5rem; line-height: 1.5; font-size: 0.95rem;">${errorMessage}</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <a href="${file.path}" download class="download-btn-small" style="background: #991b1b;">
+                                Download File
+                            </a>
+                            <button onclick="location.reload()" class="download-btn-small" style="background: #64748b; border: none; cursor: pointer;">
+                                Retry
+                            </button>
+                        </div>
                     </div>
                 `;
             }
