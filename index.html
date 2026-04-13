@@ -13,6 +13,12 @@
     
     <!-- Marked.js for Markdown rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Mermaid.js for diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <!-- Prism.js for code highlighting -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
     
     <style>
         :root {
@@ -59,7 +65,7 @@
         }
 
         .sidebar-header h1 {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 800;
             letter-spacing: -0.025em;
             color: var(--text-primary);
@@ -72,16 +78,26 @@
         }
 
         .nav-group {
-            padding: 1.5rem 0;
+            padding: 1rem 0;
         }
 
         .nav-title {
-            padding: 0 1.5rem 0.75rem;
+            padding: 0.75rem 1.5rem;
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .nav-title:hover {
+            color: var(--accent);
+            background: rgba(37, 99, 235, 0.03);
         }
 
         .nav-list {
@@ -112,6 +128,11 @@
             border-left-color: var(--accent);
         }
 
+        .nav-title.active {
+            color: var(--accent);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
         .nav-item svg {
             width: 16px;
             height: 16px;
@@ -132,6 +153,7 @@
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
+            gap: 1rem;
             padding: 0 2rem;
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(8px);
@@ -143,18 +165,20 @@
         .breadcrumb {
             font-size: 0.85rem;
             color: var(--text-secondary);
+            flex-grow: 1;
         }
 
         .content-body {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 3rem 2rem 6rem;
             width: 100%;
         }
 
-        /* Markdown Styling */
+        /* Markdown & Code Styling */
         #markdown-content {
             color: #334155;
+            position: relative;
         }
 
         #markdown-content h1 { font-size: 2.25rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--text-primary); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
@@ -163,44 +187,82 @@
         #markdown-content p { margin-bottom: 1.25rem; }
         #markdown-content ul, #markdown-content ol { margin-bottom: 1.25rem; padding-left: 1.5rem; }
         #markdown-content li { margin-bottom: 0.5rem; }
-        #markdown-content code { background: #f1f5f9; padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-family: monospace; font-size: 0.9em; }
-        #markdown-content pre { background: #1e293b; color: #f8fafc; padding: 1.5rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1.5rem; }
-        #markdown-content pre code { background: transparent; padding: 0; color: inherit; }
-        #markdown-content blockquote { border-left: 4px solid var(--border); padding-left: 1rem; color: var(--text-secondary); font-style: italic; margin-bottom: 1.25rem; }
+        
+        /* Prism Overrides */
+        pre[class*="language-"] {
+            margin: 1.5rem 0;
+            border-radius: 0.75rem;
+            font-size: 0.9rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: -1.5rem;
+            position: relative;
+            z-index: 5;
+            padding-right: 1rem;
+            top: 1rem;
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #94a3b8;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(4px);
+        }
+
+        .copy-btn:hover {
+            background: white;
+            color: var(--text-primary);
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        /* Mermaid Specific */
+        .mermaid { background: white !important; padding: 1rem; border-radius: 0.5rem; text-align: center; margin-bottom: 1.5rem; border: 1px solid var(--border); }
+
+        #markdown-content blockquote { border-left: 4px solid var(--accent); padding-left: 1rem; background: #eff6ff; padding: 1rem; border-radius: 0 0.5rem 0.5rem 0; color: #1e40af; margin-bottom: 1.25rem; }
         #markdown-content img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1rem 0; }
 
-        /* Download View */
-        .download-view {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: #f8fafc;
-            border-radius: 1rem;
-            border: 2px dashed var(--border);
+        /* Download Section */
+        .download-footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .download-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .download-btn-large {
+        .download-btn-small {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
             background: var(--text-primary);
             color: white;
-            padding: 1rem 2rem;
+            padding: 0.75rem 1.25rem;
             border-radius: 0.5rem;
             text-decoration: none;
             font-weight: 600;
-            margin-top: 1.5rem;
+            font-size: 0.85rem;
             transition: var(--transition);
         }
 
-        .download-btn-large:hover {
+        .download-btn-small:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            opacity: 0.9;
         }
 
         /* Mobile responsive */
@@ -216,14 +278,14 @@
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <h1>Bootcamp Hub</h1>
-            <p>Data Engineering 2026</p>
+            <h1>Bootcamp 01 April 2026</h1>
+            <p>Forbspace cafe`</p>
         </div>
 
         <nav id="sidebar-nav">
             <!-- Session 1 -->
             <div class="nav-group">
-                <div class="nav-title">Session 1: Basics</div>
+                <div class="nav-title" onclick="loadFile(sessions.s1_intro, 'Session 1')">Session 1: Basics</div>
                 <ul class="nav-list" id="session1-list"></ul>
             </div>
 
@@ -248,16 +310,30 @@
 
         <div class="content-body" id="main-content">
             <div id="markdown-content">
-                <!-- Content will be injected here -->
                 <p style="color: var(--text-secondary)">Loading content...</p>
             </div>
         </div>
     </main>
 
     <script>
+        // Store current code globally to avoid breaking onclick attributes with special characters
+        window.currentCode = "";
+
+        // Initialize Mermaid
+        mermaid.initialize({ startOnLoad: false, theme: 'default' });
+
+        // Configure Marked.js to open all links in a new tab
+        const renderer = new marked.Renderer();
+        const linkRenderer = renderer.link.bind(renderer);
+        renderer.link = (href, title, text) => {
+            const html = linkRenderer(href, title, text);
+            return html.replace(/^<a /, '<a target="_blank" rel="noopener noreferrer" ');
+        };
+        marked.use({ renderer });
+
         const sessions = {
+            s1_intro: { name: 'introduction.md', path: 'session1/sectional codes/introduction.md', type: 'md' },
             s1: [
-                { name: 'introduction.md', path: 'session1/sectional codes/introduction.md', type: 'md' },
                 { name: 'summary.md', path: 'session1/sectional codes/summary.md', type: 'md' },
                 { name: '01_hello_world.py', path: 'session1/sectional codes/01_hello_world.py', type: 'code' },
                 { name: '02_variables.py', path: 'session1/sectional codes/02_variables.py', type: 'code' },
@@ -290,6 +366,7 @@
 
         function renderSidebar() {
             Object.keys(sessions).forEach(key => {
+                if (key === 's1_intro') return;
                 const list = document.getElementById(`${key.replace('s', 'session')}-list`);
                 sessions[key].forEach(file => {
                     const li = document.createElement('li');
@@ -301,43 +378,100 @@
             });
         }
 
+        async function copyToClipboard(btn) {
+            try {
+                await navigator.clipboard.writeText(window.currentCode);
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy!', err);
+            }
+        }
+
         async function loadFile(file, sessionName) {
             // Update UI state
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item, .nav-title').forEach(el => el.classList.remove('active'));
+            
+            // Highlight in sidebar
             const items = document.querySelectorAll('.nav-item');
+            let found = false;
             items.forEach(item => {
-                if (item.textContent === file.name) item.classList.add('active');
+                if (item.textContent === file.name) {
+                    item.classList.add('active');
+                    found = true;
+                }
             });
+            if (!found) {
+                const titles = document.querySelectorAll('.nav-title');
+                titles.forEach(title => {
+                    if (title.textContent.includes(sessionName)) title.classList.add('active');
+                });
+            }
 
             document.getElementById('breadcrumb').textContent = `${sessionName} / ${file.name}`;
             const contentDiv = document.getElementById('markdown-content');
             contentDiv.innerHTML = '<p style="color: var(--text-secondary)">Loading...</p>';
 
-            if (file.type === 'md') {
-                try {
-                    const response = await fetch(file.path);
-                    if (!response.ok) throw new Error('File not found');
-                    const text = await response.text();
+            try {
+                const response = await fetch(file.path);
+                if (!response.ok) throw new Error('File not found');
+                const text = await response.text();
+
+                if (file.type === 'md') {
                     contentDiv.innerHTML = marked.parse(text);
-                } catch (err) {
-                    contentDiv.innerHTML = `<div class="download-view">
-                        <span class="download-icon">⚠️</span>
-                        <h3>Access Restriction</h3>
-                        <p>To view markdown files directly, this page must be served via HTTP (locally or hosted). Browsers often block local file fetching.</p>
-                        <a href="${file.path}" download class="download-btn-large">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                            Download Instead
-                        </a>
-                    </div>`;
+                    
+                    // Post-process for Mermaid
+                    const mermaidBlocks = contentDiv.querySelectorAll('pre code.language-mermaid');
+                    mermaidBlocks.forEach((block) => {
+                        const div = document.createElement('div');
+                        div.className = 'mermaid';
+                        div.textContent = block.textContent;
+                        block.parentElement.replaceWith(div);
+                    });
+                    if (mermaidBlocks.length > 0) await mermaid.run();
+                } else if (file.type === 'code') {
+                    // Update global state for copy function
+                    window.currentCode = text;
+                    
+                    // Render code with Prism
+                    const highlighted = Prism.highlight(text, Prism.languages.python, 'python');
+                    contentDiv.innerHTML = `
+                        <h1>${file.name}</h1>
+                        <p style="color:var(--text-secondary)">Preview the code below. You can copy it directly or download the file.</p>
+                        <div class="code-header">
+                            <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                        </div>
+                        <pre class="language-python"><code class="language-python">${highlighted}</code></pre>
+                        <div class="download-footer">
+                            <span style="font-size: 0.85rem; color: var(--text-secondary)">Need the full file?</span>
+                            <a href="${file.path}" download class="download-btn-small">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                Download .py File
+                            </a>
+                        </div>
+                    `;
+                } else {
+                    contentDiv.innerHTML = `
+                        <div style="text-align:center; padding: 4rem 2rem; border: 2px dashed var(--border); border-radius: 1rem; background: #f8fafc;">
+                            <span style="font-size: 3rem; margin-bottom: 1rem; display: block;">${icons[file.type].replace('viewBox', 'style="width:64px;height:64px" viewBox')}</span>
+                            <h3>${file.name}</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 2rem;">This file type cannot be previewed. Please download it to view the content.</p>
+                            <a href="${file.path}" download class="download-btn-small" style="padding: 1rem 2rem; font-size: 1rem;">
+                                Download File
+                            </a>
+                        </div>
+                    `;
                 }
-            } else {
+            } catch (err) {
                 contentDiv.innerHTML = `
-                    <div class="download-view">
-                        <span class="download-icon">${icons[file.type].replace('viewBox', 'style="width:64px;height:64px" viewBox')}</span>
-                        <h3>${file.name}</h3>
-                        <p>This file type cannot be previewed directly in the documentation view.</p>
-                        <a href="${file.path}" download class="download-btn-large">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <div style="text-align:center; padding: 3rem; background: #fff1f2; color: #991b1b; border-radius: 1rem; border: 1px solid #fecaca;">
+                        <h3>⚠️ Access Restriction</h3>
+                        <p style="margin-top: 0.5rem;">CORS policy prevents fetching local files directly in some browsers. Please host this folder on a server or download the file instead.</p>
+                        <a href="${file.path}" download class="download-btn-small" style="margin-top: 1.5rem; background: #991b1b;">
                             Download File
                         </a>
                     </div>
@@ -347,8 +481,7 @@
 
         // Initialize
         renderSidebar();
-        // Load default file
-        loadFile(sessions.s1[0], 'Session 1');
+        loadFile(sessions.s1_intro, 'Session 1');
     </script>
 </body>
 </html>
