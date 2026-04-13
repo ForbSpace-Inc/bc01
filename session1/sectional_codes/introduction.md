@@ -42,19 +42,19 @@ We'll start with a simple "Hello" and end with a program that can make decisions
 
 To make this session as smooth as possible, we will use an online environment. No complex software installation is needed on your computer!
 
-### 1. Open your Coding Dashboard
-Click the button below to open the online editor in a new tab. You will use this to run your code throughout the session.
-
-> [!IMPORTANT]
-> **[Open Online Python Editor 🚀](https://www.programiz.com/python-programming/online-compiler/)**  
-> *(Opens in a new tab)*
-
-### 2. Download Your First File
+### 1. Download Your First File
 To start, you need the first piece of code on your machine. Click the large button below to save it.
 
 > [!TIP]
 > **[Download 01_hello_world.py 📥](session1/sectional%20codes/01_hello_world.py)**  
 > *If the download doesn't start, right-click the link and select "Save Link As..."*
+
+### 2. Open your Coding Dashboard
+Click the button below to open the online editor in a new tab. You will use this to run your code throughout the session.
+
+> [!IMPORTANT]
+> **[Open Online Python Editor 🚀](https://www.programiz.com/python-programming/online-compiler/)**  
+> *(Opens in a new tab)*
 
 ### 3. Let's Start Coding!
 Go back to the **Online Editor** tab, copy the code from the downloaded file (or just type it in), and hit **"Run"**. I will explain every line as we go!
