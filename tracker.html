@@ -162,10 +162,48 @@
             justify-content: center;
             gap: 0.75rem;
             letter-spacing: -0.05em;
+            transition: color 0.3s ease;
         }
         
         .local .timer-display { color: #0f172a; }
+        .local.warning .timer-display { color: var(--error); }
         .local.overtime .timer-display { color: var(--error); animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+
+        /* Next Task Prompt */
+        .next-prompt-overlay {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            z-index: 1000;
+            transform: translateX(120%);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 350px;
+        }
+
+        .next-prompt-overlay.visible { transform: translateX(0); }
+
+        .next-prompt-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--accent);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .next-prompt-info h4 { font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 2px; }
+        .next-prompt-info p { font-weight: 700; color: var(--text-primary); font-size: 0.95rem; }
 
         @keyframes shake {
             10%, 90% { transform: translate3d(-1px, 0, 0); }
@@ -414,6 +452,17 @@
         </a>
     </div>
 
+    <!-- Next Task Prompt Overlay -->
+    <div id="next-task-prompt" class="next-prompt-overlay">
+        <div class="next-prompt-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </div>
+        <div class="next-prompt-info">
+            <h4>Ready for Next Section?</h4>
+            <p id="next-task-name-prompt">02c_lists_dicts.py</p>
+        </div>
+    </div>
+
     <script>
         const tasks = [
             { id: 'recap', name: 'Session Recap & Warm-up', file: 'Concepts Review', mins: 15 },
@@ -434,33 +483,42 @@
         // Audio Context for the alert sound
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         
-        function playNotificationSound() {
+        function playSound(type = 'alert') {
             const oscillator = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
 
-            oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // A5
-            oscillator.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.5); // A4
-            
-            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.05);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+            if (type === 'alert') {
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // A5
+                oscillator.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.5); // A4
+                
+                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.05);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.5);
+            } else if (type === 'prepare') {
+                // Upward chime
+                oscillator.type = 'triangle';
+                oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); 
+                oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.3); 
+                
+                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.1);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.4);
+            }
+        }
 
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-
-            oscillator.start();
-            oscillator.stop(audioCtx.currentTime + 0.5);
-            
-            // Second beep for punch
-            setTimeout(() => {
-                const osc2 = audioCtx.createOscillator();
-                osc2.type = 'triangle';
-                osc2.frequency.setValueAtTime(1320, audioCtx.currentTime);
-                osc2.connect(gainNode);
-                osc2.start();
-                osc2.stop(audioCtx.currentTime + 0.2);
-            }, 100);
+        function playNotificationSound() {
+            playSound('alert');
         }
 
         function save() {
@@ -564,19 +622,44 @@
                 
                 if (remaining <= 0) {
                     document.getElementById('local-card').classList.add('overtime');
+                    document.getElementById('local-card').classList.remove('warning');
                     document.getElementById('local-label').textContent = "OVERTIME";
                     
-                    // Force timer to show zero or count up overtime? 
-                    // Let's show 00:00 and change color.
                     document.getElementById('l-minutes').textContent = "00";
                     document.getElementById('l-seconds').textContent = "00";
                     
                     if (!soundPlayedForCurrent) {
-                        playNotificationSound();
+                        playSound('alert');
+                        
+                        // Sequence: Show Prompt + Play different sound
+                        const currentIndex = tasks.findIndex(t => t.id === activeTaskId);
+                        const nextTask = tasks[currentIndex + 1];
+                        
+                        if (nextTask) {
+                            setTimeout(() => {
+                                document.getElementById('next-task-name-prompt').textContent = nextTask.name;
+                                document.getElementById('next-task-prompt').classList.add('visible');
+                                playSound('prepare');
+                                
+                                // Hide after 8 seconds
+                                setTimeout(() => {
+                                    document.getElementById('next-task-prompt').classList.remove('visible');
+                                }, 8000);
+                            }, 1000);
+                        }
+                        
                         soundPlayedForCurrent = true;
                     }
                 } else {
                     document.getElementById('local-card').classList.remove('overtime');
+                    
+                    // 5 Minute Warning (300,000 ms)
+                    if (remaining <= 300000) {
+                        document.getElementById('local-card').classList.add('warning');
+                    } else {
+                        document.getElementById('local-card').classList.remove('warning');
+                    }
+
                     document.getElementById('local-label').textContent = "Local Task Timer";
                     const lm = Math.floor(remaining / (1000 * 60));
                     const ls = Math.floor((remaining % (1000 * 60)) / 1000);
@@ -587,7 +670,7 @@
                 document.getElementById('active-task-name').textContent = "No active task";
                 document.getElementById('l-minutes').textContent = "00";
                 document.getElementById('l-seconds').textContent = "00";
-                document.getElementById('local-card').classList.remove('overtime');
+                document.getElementById('local-card').classList.remove('overtime', 'warning');
             }
         }
 
