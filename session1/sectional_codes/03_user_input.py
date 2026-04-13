@@ -1,23 +1,20 @@
-# 03_user_input.py
 # =============================================
-# SECTION 1.3: Getting Information from the User
+# LESSON 03: User Input
 # =============================================
 
-# Live Demo
 name = input("What is your name? ")
-print("Hello", name, "! Nice to meet you.")
 
-# ------------------------------
-# STUDENT ACTIVITY (10 minutes)
-# Make a short “greeting program” that asks for:
-#   • name
-#   • age
-#   • favorite color
-# Then prints ONE nice sentence using all three answers.
+print("Hello", name)
 
-# TODO: Write your greeting program below
-name = input("What is your name? ")
-age = input("How old are you? ")
-favorite_color = input("What is your favorite color? ")
+# =====================
+# YOUR TURN
+# =====================
 
-print("Nice to meet you,", name, "! You are", age, "years old and your favorite color is", favorite_color, "!")
+# Ask the user:
+# 1. Their age
+# 2. Their favorite color
+
+# Then print:
+# "You are __ years old and like __ color"
+
+# Write your code below:

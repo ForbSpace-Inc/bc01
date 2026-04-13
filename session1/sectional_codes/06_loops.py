@@ -1,21 +1,16 @@
-# 06_loops.py
 # =============================================
-# SECTION 1.6: Repeating Things – Loops
+# LESSON 06: Loops
 # =============================================
 
-# 1. For loop
-print("--- For Loop Example ---")
+print("Repeating 5 times:")
+
 for i in range(5):
-    print("This line will repeat 5 times!")
+    print("Hello!")
 
-# 2. While loop
-print("\n--- While Loop Example ---")
-count = 1
-while count <= 5:
-    print(count)
-    count = count + 1
+# =====================
+# YOUR TURN
+# =====================
 
-# Try changing the numbers and run again!
-# Example ideas:
-# Change range(5) → range(10)
-# Change while count <= 5 → while count <= 10
+# Make it print your name 10 times
+
+# Try changing 5 → 10

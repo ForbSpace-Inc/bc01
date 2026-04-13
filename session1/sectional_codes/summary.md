@@ -1,25 +1,28 @@
-# 🏆 Session 1 Summary: Master Chef Graduation!
+# Session 1 Summary: The Building Blocks of Code
 
-Congratulations! You've just completed your **Kitchen Basics Training**. You've mastered the six essential building blocks used to "cook up" every piece of software you use today.
+Congratulations! You've just completed the foundational part of your coding journey. You've mastered the essential building blocks used to create every piece of software you use today.
 
 ---
 
-## 👩‍🍳 Your Culinary Progress
+## Session Progress
 
 Below is a summary of the coding skills you've mastered in this session:
 
-| Goal | Concept | Kitchen Analogy | Key Takeaway |
+| Goal | Concept | Mini Project Built | Key Takeaway |
 | :--- | :--- | :--- | :--- |
-| **01** | **Output** | Announcing the Menu | `print()` is how your program talks to the world. |
-| **02** | **Data Storage** | The Pantry | Variables are "containers" that hold your ingredients (data). |
-| **03** | **Interaction** | Customer Orders | `input()` lets users tell your program what they want. |
-| **04** | **Calculation** | Measuring Portions | Computers handle all the math (`+`, `-`, `*`, `/`) for you. |
-| **05** | **Decisions** | Taste Testing | `if/else` logic lets your program choose different paths. |
-| **06** | **Automation** | Batch Cooking | Loops let you repeat tasks perfectly, over and over. |
+| **01** | **Hello World** | Introduce Yourself | `print()` shows text on the screen. |
+| **02A** | **Variables (Text)** | Digital Profile | Store information to use it later. |
+| **02B** | **Variables (Num)** | Age Calculator | Numbers can do math (+, -, *, /). |
+| **02C** | **Lists & Dicts** | Movie & Phone Data | Store multiple items in one variable. |
+| **03** | **User Input** | Simple Chat Bot | `input()` makes your programs interactive. |
+| **04** | **Math Ops** | Lifetime Calculator | Convert `input` to `int()` for math. |
+| **05** | **If / Else** | Access Checker | Use `if/else` for logic and decisions. |
+| **06** | **Loops** | Name Repeater | Loops repeat tasks automatically to save time. |
+| **07** | **Combine All** | Smart Greeting | Use all 6 blocks to build a real program. |
 
 ---
 
-## 💡 Why This Matters
+## Why This Matters
 
 > [!TIP]
 > **Thinking like a Programmer:**  
@@ -27,7 +30,7 @@ Below is a summary of the coding skills you've mastered in this session:
 
 ---
 
-## 🍳 The Big Picture
+## The Big Picture
 
 *   **Print statements** = Communicating your results.
 *   **Variables** = Organizing and naming your info.
@@ -38,11 +41,11 @@ Below is a summary of the coding skills you've mastered in this session:
 
 ---
 
-## 🛸 What's Next?
+## What's Next?
 
-You have officially graduated from the basics! 
+You have officially mastered the basics! 
 
-**Next Stop:** Moving from simple recipes to building complex systems—The Four Pillars of Advanced Coding! 🚀✨
+
 
 ---
 ForbSpace Bootcamp 2026 
