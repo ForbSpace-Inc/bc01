@@ -17,8 +17,9 @@ Below is a summary of the coding skills you've mastered in this session:
 | **03** | **User Input** | Simple Chat Bot | `input()` makes your programs interactive. |
 | **04** | **Math Ops** | Lifetime Calculator | Convert `input` to `int()` for math. |
 | **05** | **If / Else** | Access Checker | Use `if/else` for logic and decisions. |
-| **06** | **Loops** | Name Repeater | Loops repeat tasks automatically to save time. |
-| **07** | **Combine All** | Smart Greeting | Use all 6 blocks to build a real program. |
+| **06A**| **For Loops** | Name Repeater | Use `for` to repeat a set number of times. |
+| **06B**| **While Loops**| Countdown Timer | Use `while` to repeat until a condition changes. |
+| **07** | **Combine All** | Smart Greeting | Build a real program using all blocks. |
 
 ---
 

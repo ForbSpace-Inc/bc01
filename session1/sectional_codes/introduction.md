@@ -31,8 +31,9 @@ graph LR
     C3 --> D[3. User Input]
     D --> E[4. Math Ops]
     E --> F[5. Logic/If-Else]
-    F --> G[6. Loops]
-    G --> H[Finish]
+    F --> G1[6A. For Loops]
+    G1 --> G2[6B. While Loops]
+    G2 --> H[Finish]
     
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style H fill:#00ff00,stroke:#333,stroke-width:2px
@@ -92,7 +93,8 @@ Go back to the **Online Editor** tab, copy the code from the downloaded file (or
 - [ ] `03_user_input.py` - Interactive chatbot built
 - [ ] `04_math_operations.py` - Age calculator completed
 - [ ] `05_if_else.py` - Access control system built
-- [ ] `06_loops.py` - Automation with loops mastered
+- [ ] `06_loops.py` - For Loops: Counting and repeating
+- [ ] `06b_while_loops.py` - While Loops: Condition-based automation
 - [ ] `07_smart_greeting.py` - Bonus Graduation Project!
 
 ---
