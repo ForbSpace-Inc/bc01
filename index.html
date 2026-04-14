@@ -447,10 +447,16 @@
         </div>
 
         <nav id="sidebar-nav">
-            <!-- Session 1 -->
+            <!-- Session 1 Part 2 (Active Today) -->
             <div class="nav-group">
-                <div class="nav-title" onclick="loadFile(sessions.s1_intro, 'Session 1')">Session 1: Basics</div>
-                <ul class="nav-list" id="session1-list"></ul>
+                <div class="nav-title" onclick="loadFile(sessions.s1_part2_intro, 'Session 1 Part 2')">Session 1: Part 2 - Mars Discovery</div>
+                <ul class="nav-list" id="session1_part2-list"></ul>
+            </div>
+
+            <!-- Session 1 Basics -->
+            <div class="nav-group">
+                <div class="nav-title" onclick="loadFile(sessions.s1_basics_intro, 'Session 1 Basics')">Session 1: Python Basics</div>
+                <ul class="nav-list" id="session1_basics-list"></ul>
             </div>
 
             <!-- Session 2 -->
@@ -496,10 +502,11 @@
         // No custom renderer needed - we'll post-process links after parsing
 
         const sessions = {
-            s1_intro: { name: 'introduction.md', path: 'session1/sectional_codes/introduction.md', type: 'md' },
+            s1_basics_intro: { name: 'introduction.md', path: 'session1/sectional_codes/introduction.md', type: 'md' },
+            s1_part2_intro: { name: 'introduction.md', path: 'session1/session1_part2/introduction.md', type: 'md' },
             s2_intro: { name: 'introduction.md', path: 'session2/introduction.md', type: 'md' },
             s3_intro: { name: 'introduction.md', path: 'session3_part/introduction.md', type: 'md' },
-            s1: [
+            s1_basics: [
                 { 
                     name: '01_hello_world.py', 
                     path: 'session1/sectional_codes/01_hello_world.py', 
@@ -603,6 +610,11 @@
                 },
                 { name: 'summary.md', path: 'session1/sectional_codes/summary.md', type: 'md' }
             ],
+            s1_part2: [
+                { name: 'Loops Recap & Transition', path: 'session1/session1_part2/recap_transition.md', type: 'md' },
+                { name: 'Basics & Terms', path: 'session1/session1_part2/basics_terms.md', type: 'md' },
+                { name: 'Activity Steps', path: 'session1/session1_part2/activity_steps.md', type: 'md' }
+            ],
             s2: [
                 { name: 'session2_python_takeoff.ipynb', path: 'session2/session2_python_takeoff.ipynb', type: 'notebook', locked: true },
                 { name: 'session2_python_takeoff.html', path: 'session2/session2_python_takeoff.html', type: 'web', locked: true },
@@ -634,8 +646,9 @@
                 if (key.includes('_intro')) return;
                 
                 const sessionKey = key;
-                const groupContainer = document.querySelector(`.nav-group:has(.nav-list[id="${key.replace('s', 'session')}-list"])`);
-                const list = document.getElementById(`${key.replace('s', 'session')}-list`);
+                const listId = key.includes('_part2') ? 'session1_part2-list' : (key.includes('_basics') ? 'session1_basics-list' : `${key.replace('s', 'session')}-list`);
+                const groupContainer = document.querySelector(`.nav-group:has(.nav-list[id="${listId}"])`);
+                const list = document.getElementById(listId);
                 
                 // Reset list
                 list.innerHTML = '';
@@ -678,7 +691,7 @@
                     } else {
                         // Logic to load intro depends on key
                         const intro = sessions[`${sessionKey}_intro`];
-                        loadFile(intro, sessionKey.replace('s', 'Session '));
+                        loadFile(intro, sessionKey.includes('part2') ? 'Session 1 Part 2' : (sessionKey.includes('basics') ? 'Session 1 Basics' : sessionKey.replace('s', 'Session ')));
                     }
                 };
             });
@@ -924,9 +937,14 @@
             }
         }
 
-        // Initialize
+        // Initial Load
+        window.addEventListener('scroll', () => {
+            // Placeholder for potential scroll effects
+        });
+
+        // Initialize view: Load Session 1 Part 2 Recap by default
         renderSidebar();
-        loadFile(sessions.s1_intro, 'Session 1');
+        loadFile(sessions.s1_part2[0], 'Session 1 Part 2');
     </script>
 </body>
 </html>

@@ -401,8 +401,16 @@
     <div class="container">
         <header>
             <div class="header-left">
-                <div class="badge">Session 1 • Live Sprint</div>
-                <h1>Progress Tracker</h1>
+                <div class="badge" id="session-badge">Session 1 • Live Sprint</div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <h1>Progress Tracker</h1>
+                    <select id="session-selector" onchange="switchSession(this.value)" style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.25rem 0.5rem; font-size: 0.8rem; font-weight: 600; cursor: pointer;">
+                        <option value="session1">Session 1: Part 1</option>
+                        <option value="session1_p2">Session 1: Part 2</option>
+                        <option value="session2">Session 2: Aeronautics</option>
+                        <option value="session3">Session 3: GIS Bridge</option>
+                    </select>
+                </div>
             </div>
             <button class="test-audio-btn" onclick="playNotificationSound()">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
@@ -464,20 +472,110 @@
     </div>
 
     <script>
-        const tasks = [
-            { id: 'recap', name: 'Session Recap & Warm-up', file: 'Concepts Review', mins: 15 },
-            { id: 'dict', name: 'Dictionary Mastery', file: '02c_lists_dicts.py', mins: 20 },
-            { id: 'hello', name: 'Python Handshake (Quick)', file: '01_hello_world.py', mins: 5 },
-            { id: 'input', name: 'The Human Factor', file: '03_user_input.py', mins: 20 },
-            { id: 'math', name: 'Quick Math Logic', file: '04_math_operations.py', mins: 20 },
-            { id: 'logic', name: 'The Decision Tree', file: '05_if_else.py', mins: 25 },
-            { id: 'loops', name: 'The Repeater', file: '06_loops.py', mins: 25 },
-            { id: 'while', name: 'The Infinite Horizon', file: '06b_while_loops.py', mins: 20 }
-        ];
+        const SESSION_DATA = {
+            session1: {
+                name: "Session 1: Foundations (P1)",
+                badge: "Session 1 • Foundations",
+                deadline: "16:30",
+                start: "10:30",
+                tasks: [
+                    { id: 'recap', name: 'Session Recap & Warm-up', file: 'Concepts Review', mins: 15 },
+                    { id: 'hello', name: 'Python Handshake', file: '01_hello_world.py', mins: 10 },
+                    { id: 'vars', name: 'Variables & Data Types', file: '02_variables.py', mins: 20 },
+                    { id: 'input', name: 'The Human Factor', file: '03_user_input.py', mins: 20 },
+                    { id: 'math', name: 'Quick Math Logic', file: '04_math_operations.py', mins: 20 },
+                    { id: 'logic', name: 'The Decision Tree', file: '05_if_else.py', mins: 25 },
+                    { id: 'loops', name: 'The Repeater', file: '06_loops.py', mins: 25 },
+                    { id: 'while', name: 'The Infinite Horizon', file: '06b_while_loops.py', mins: 20 }
+                ]
+            },
+            session1_p2: {
+                name: "Session 1: Part 2 - Mars Discovery",
+                badge: "Session 1 • Mars Project",
+                deadline: "16:30",
+                start: "10:30",
+                tasks: [
+                    { id: 's1p2_recap', name: 'Python Loops Recap & Transition', file: 'Recap Doc', mins: 15 },
+                    { id: 's1p2_setup', name: 'Mars Rover Project Setup', file: 'Setup Ph', mins: 15 },
+                    { id: 's1p2_controls', name: 'Coding Rover Controls', file: 'Sprint 1', mins: 20 },
+                    { id: 's1p2_targets', name: 'Adding Science Targets', file: 'Sprint 2', mins: 25 },
+                    { id: 's1p2_timer', name: 'Mission Timer & Variables', file: 'Sprint 3', mins: 20 },
+                    { id: 's1p2_final', name: 'Final Challenges & Debugging', file: 'Windup', mins: 30 }
+                ]
+            },
+            session2: {
+                name: "Session 2: Aeronautics",
+                badge: "Session 2 • Python Takeoff",
+                deadline: "16:30",
+                start: "10:30",
+                tasks: [
+                    { id: 's2_math', name: 'Variables & Unit Conversions', file: 'Part 1.1-1.3', mins: 20 },
+                    { id: 's2_data', name: 'Lists & Dictionaries (Airports)', file: 'Part 1.4-1.5', mins: 25 },
+                    { id: 's2_logic', name: 'Descent Simulation (Logic)', file: 'Part 1.6-1.8', mins: 25 },
+                    { id: 's2_fn', name: 'Reusable Functions', file: 'Part 1.9', mins: 20 },
+                    { id: 's2_libs', name: 'Loading AIP Data', file: 'Part 2.1-2.2', mins: 15 },
+                    { id: 's2_pandas', name: 'Data Analysis with Pandas', file: 'Part 2.3', mins: 40 },
+                    { id: 's2_viz', name: 'Visualizing the Skies', file: 'Part 2.4', mins: 30 }
+                ]
+            },
+            session3: {
+                name: "Session 3: GIS Bridge",
+                badge: "Session 3 • Spatial Python",
+                deadline: "16:30",
+                start: "13:30",
+                tasks: [
+                    { id: 's3_geojson', name: 'Spatial Data Basics', file: 'Part 1', mins: 20 },
+                    { id: 's3_folium', name: 'Interactive Maps (Folium)', file: 'Part 2', mins: 30 },
+                    { id: 's3_dist', name: 'Distance & Nearest Neighbor', file: 'Part 3', mins: 30 },
+                    { id: 's3_dbscan', name: 'Spatial Clustering (ML)', file: 'Part 4', mins: 30 },
+                    { id: 's3_rs', name: 'Remote Sensing Intro', file: 'Part 5', mins: 20 },
+                    { id: 's3_ndvi', name: 'Calculating NDVI', file: 'Part 5.4', mins: 30 },
+                    { id: 's3_crs', name: 'Coordinate Systems (CRS)', file: 'Part 6', mins: 20 }
+                ]
+            }
+        };
 
-        let completedTasks = JSON.parse(localStorage.getItem('bootcamp_sprint_done')) || [];
-        let activeTaskId = localStorage.getItem('bootcamp_active_task') || null;
-        let activeTaskStartTime = localStorage.getItem('bootcamp_task_start') ? parseInt(localStorage.getItem('bootcamp_task_start')) : null;
+        let currentSessionId = 'session1';
+        let tasks = SESSION_DATA[currentSessionId].tasks;
+
+        function detectSession() {
+            const day = new Date().getDay(); // 0 is Sunday, 1 is Monday, ...
+            if (day === 2) return 'session1_p2'; // Tuesday is Part 2
+            if (day === 3) return 'session2'; // Wednesday
+            if (day === 4) return 'session3'; // Thursday
+            return 'session1'; // Default to Session 1 P1 for Monday
+        }
+
+        function initSession() {
+            currentSessionId = localStorage.getItem('bootcamp_current_session') || detectSession();
+            document.getElementById('session-selector').value = currentSessionId;
+            loadSession(currentSessionId);
+        }
+
+        function loadSession(sessionId) {
+            currentSessionId = sessionId;
+            const session = SESSION_DATA[sessionId];
+            tasks = session.tasks;
+            
+            document.getElementById('session-badge').textContent = session.badge;
+            document.getElementById('local-card').classList.remove('overtime', 'warning');
+            
+            completedTasks = JSON.parse(localStorage.getItem(`bootcamp_done_${sessionId}`)) || [];
+            activeTaskId = localStorage.getItem(`bootcamp_active_${sessionId}`) || null;
+            activeTaskStartTime = localStorage.getItem(`bootcamp_start_${sessionId}`) ? parseInt(localStorage.getItem(`bootcamp_start_${sessionId}`)) : null;
+            
+            renderTasks();
+            updateProgress();
+            localStorage.setItem('bootcamp_current_session', sessionId);
+        }
+
+        function switchSession(sessionId) {
+            loadSession(sessionId);
+        }
+
+        let completedTasks = [];
+        let activeTaskId = null;
+        let activeTaskStartTime = null;
         let soundPlayedForCurrent = false;
 
         // Audio Context for the alert sound
@@ -522,9 +620,9 @@
         }
 
         function save() {
-            localStorage.setItem('bootcamp_sprint_done', JSON.stringify(completedTasks));
-            localStorage.setItem('bootcamp_active_task', activeTaskId);
-            localStorage.setItem('bootcamp_task_start', activeTaskStartTime);
+            localStorage.setItem(`bootcamp_done_${currentSessionId}`, JSON.stringify(completedTasks));
+            localStorage.setItem(`bootcamp_active_${currentSessionId}`, activeTaskId);
+            localStorage.setItem(`bootcamp_start_${currentSessionId}`, activeTaskStartTime);
             updateProgress();
         }
 
@@ -597,12 +695,19 @@
             const now = Date.now();
             
             // Global Timer
+            const session = SESSION_DATA[currentSessionId];
+            const [dHour, dMin] = session.deadline.split(':');
             const deadline = new Date();
-            deadline.setHours(15, 30, 0, 0);
+            deadline.setHours(parseInt(dHour), parseInt(dMin), 0, 0);
+            
             let gDiff = deadline - now;
             if (gDiff <= 0) {
-                document.getElementById('global-timer').innerHTML = '<div style="color:var(--error); font-size: 2rem;">SPRINT ENDED</div>';
+                document.getElementById('global-timer').innerHTML = '<div style="color:var(--error); font-size: 2rem;">SESSION ENDED</div>';
+                document.getElementById('progress-bar').style.width = '100%';
             } else {
+                const totalWindow = (parseInt(dHour) * 60 + parseInt(dMin)) - (parseInt(session.start.split(':')[0]) * 60 + parseInt(session.start.split(':')[1]));
+                const elapsedMin = (now.getHours() * 60 + now.getMinutes()) - (parseInt(session.start.split(':')[0]) * 60 + parseInt(session.start.split(':')[1]));
+                
                 const h = Math.floor(gDiff / (1000 * 60 * 60));
                 const m = Math.floor((gDiff % (1000 * 60 * 60)) / (1000 * 60));
                 const s = Math.floor((gDiff % (1000 * 60)) / 1000);
@@ -675,9 +780,8 @@
         }
 
         setInterval(updateTimers, 1000);
+        initSession();
         updateTimers();
-        renderTasks();
-        updateProgress();
     </script>
 </body>
 </html>
