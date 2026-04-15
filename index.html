@@ -616,20 +616,20 @@
                 { name: 'Activity Steps', path: 'session1/session1_part2/activity_steps.md', type: 'md' }
             ],
             s2: [
-                { name: 'session2_python_takeoff.ipynb', path: 'session2/session2_python_takeoff.ipynb', type: 'notebook', locked: true },
-                { name: 'session2_python_takeoff.html', path: 'session2/session2_python_takeoff.html', type: 'web', locked: true },
-                { name: 'visual_design_scheme.docx', path: 'session2/visual_design_scheme.docx', type: 'doc', locked: true }
+                { name: 'session2_python_takeoff.ipynb', path: 'session2/session2_python_takeoff.ipynb', type: 'notebook', locked: false },
+                { name: 'session2_python_takeoff.html', path: 'session2/session2_python_takeoff.html', type: 'web', locked: false },
+                { name: 'visual_design_scheme.docx', path: 'session2/visual_design_scheme.docx', type: 'doc', locked: false }
             ],
             s3: [
-                { name: 'session3_python_gis.ipynb', path: 'session3_part/session3_python_gis.ipynb', type: 'notebook', locked: true },
-                { name: 'aerodromes-ke.geojson', path: 'session3_part/aerodromes-ke.geojson', type: 'geo', locked: true }
+                { name: 'session3_python_gis.ipynb', path: 'session3_part/session3_python_gis.ipynb', type: 'notebook', locked: false },
+                { name: 'aerodromes-ke.geojson', path: 'session3_part/aerodromes-ke.geojson', type: 'geo', locked: false }
             ]
         };
         
         // Lock settings
         const lockSettings = {
-            s2: { locked: true, date: 'Wednesday, April 15th' },
-            s3: { locked: true, date: 'Wednesday, April 15th' }
+            s2: { locked: false, date: 'Wednesday, April 15th' },
+            s3: { locked: false, date: 'Wednesday, April 15th' }
         };
 
         const icons = {
@@ -942,9 +942,9 @@
             // Placeholder for potential scroll effects
         });
 
-        // Initialize view: Load Session 1 Part 2 Recap by default
+        // Initialize view: Load Session 2 Introduction by default
         renderSidebar();
-        loadFile(sessions.s1_part2[0], 'Session 1 Part 2');
+        loadFile(sessions.s2_intro, 'Session 2');
     </script>
 </body>
 </html>
