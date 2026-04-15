@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootcamp Sprint Tracker | 15:30 Deadline</title>
+    <title>Bootcamp Sprint Tracker | 16:30 Deadline</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -420,7 +420,7 @@
 
         <div class="timer-grid">
             <section class="timer-card global">
-                <div class="timer-label">Session Deadline [15:30]</div>
+                <div class="timer-label">Session Deadline [16:30]</div>
                 <div class="timer-display" id="global-timer">
                     <div class="timer-unit"><span id="g-hours">00</span><span>Hrs</span></div>
                     <span>:</span>
@@ -431,6 +431,7 @@
                 <div class="progress-container">
                     <div class="progress-header"><span>Overall Mastery</span><span id="progress-percent">0%</span></div>
                     <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-bar"></div></div>
+                    <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.5rem; font-weight: 600;">Curriculum Sprint Target: 15:30</div>
                 </div>
             </section>
 
@@ -616,6 +617,7 @@
         }
 
         function playNotificationSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
             playSound('alert');
         }
 
@@ -692,7 +694,8 @@
         }
 
         function updateTimers() {
-            const now = Date.now();
+            const nowTimestamp = Date.now();
+            const now = new Date(nowTimestamp);
             
             // Global Timer
             const session = SESSION_DATA[currentSessionId];
@@ -700,7 +703,7 @@
             const deadline = new Date();
             deadline.setHours(parseInt(dHour), parseInt(dMin), 0, 0);
             
-            let gDiff = deadline - now;
+            let gDiff = deadline - nowTimestamp;
             if (gDiff <= 0) {
                 document.getElementById('global-timer').innerHTML = '<div style="color:var(--error); font-size: 2rem;">SESSION ENDED</div>';
                 document.getElementById('progress-bar').style.width = '100%';
@@ -711,15 +714,27 @@
                 const h = Math.floor(gDiff / (1000 * 60 * 60));
                 const m = Math.floor((gDiff % (1000 * 60 * 60)) / (1000 * 60));
                 const s = Math.floor((gDiff % (1000 * 60)) / 1000);
-                document.getElementById('g-hours').textContent = h.toString().padStart(2, '0');
-                document.getElementById('g-minutes').textContent = m.toString().padStart(2, '0');
-                document.getElementById('g-seconds').textContent = s.toString().padStart(2, '0');
+                
+                if (document.getElementById('g-hours')) { // Check if elements exist before updating
+                    document.getElementById('g-hours').textContent = h.toString().padStart(2, '0');
+                    document.getElementById('g-minutes').textContent = m.toString().padStart(2, '0');
+                    document.getElementById('g-seconds').textContent = s.toString().padStart(2, '0');
+                } else {
+                    // Fallback if innerHTML was replaced
+                    document.getElementById('global-timer').innerHTML = `
+                        <div class="timer-unit"><span>${h.toString().padStart(2, '0')}</span><span>Hrs</span></div>
+                        <span>:</span>
+                        <div class="timer-unit"><span>${m.toString().padStart(2, '0')}</span><span>Min</span></div>
+                        <span>:</span>
+                        <div class="timer-unit"><span>${s.toString().padStart(2, '0')}</span><span>Sec</span></div>
+                    `;
+                }
             }
 
             // Local Timer
             if (activeTaskId) {
                 const task = tasks.find(t => t.id === activeTaskId);
-                const elapsed = now - activeTaskStartTime;
+                const elapsed = nowTimestamp - activeTaskStartTime;
                 const totalMins = task.mins * 60 * 1000;
                 let remaining = totalMins - elapsed;
 
