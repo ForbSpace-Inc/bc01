@@ -35,7 +35,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2rem;
+            padding: 2rem 1.5rem;
             background-image: 
                 radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.05) 0%, transparent 40%),
                 radial-gradient(circle at 90% 90%, rgba(16, 184, 129, 0.05) 0%, transparent 40%);
@@ -48,11 +48,12 @@
         }
 
         header {
-            text-align: center;
             margin-bottom: 2.5rem;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .header-left { text-align: left; }
@@ -74,7 +75,7 @@
         }
 
         h1 {
-            font-size: 2.25rem;
+            font-size: clamp(1.5rem, 5vw, 2.25rem);
             font-weight: 800;
             letter-spacing: -0.04em;
             color: var(--text-primary);
@@ -111,6 +112,18 @@
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
             margin-bottom: 2rem;
+        }
+
+        /* Session selector responsive */
+        #session-selector {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            max-width: 180px;
         }
 
         .timer-card {
@@ -154,13 +167,13 @@
 
         .timer-display {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 7vw, 3.5rem);
             font-weight: 800;
             color: var(--accent);
             margin-bottom: 0.5rem;
             display: flex;
             justify-content: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
             letter-spacing: -0.05em;
             transition: color 0.3s ease;
         }
@@ -172,23 +185,34 @@
         /* Next Task Prompt */
         .next-prompt-overlay {
             position: fixed;
-            top: 2rem;
-            right: 2rem;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            left: 1.5rem;
             background: var(--surface);
             border: 1px solid var(--accent);
-            padding: 1.5rem;
+            padding: 1.25rem 1.5rem;
             border-radius: 1.25rem;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
             gap: 1.25rem;
             z-index: 1000;
-            transform: translateX(120%);
+            transform: translateY(calc(100% + 2rem));
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            max-width: 350px;
+            max-width: 480px;
+            margin: 0 auto;
         }
 
-        .next-prompt-overlay.visible { transform: translateX(0); }
+        @media (min-width: 600px) {
+            .next-prompt-overlay {
+                left: auto;
+                bottom: 2rem;
+                right: 2rem;
+                max-width: 350px;
+            }
+        }
+
+        .next-prompt-overlay.visible { transform: translateY(0); }
 
         .next-prompt-icon {
             width: 48px;
@@ -277,8 +301,8 @@
         .task-item {
             display: flex;
             align-items: center;
-            gap: 1.25rem;
-            padding: 1.25rem;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
             border-radius: 1.25rem;
             transition: var(--transition);
             margin-bottom: 0.75rem;
@@ -332,10 +356,10 @@
         .task-item.completed .checkbox svg { display: block; }
 
         .task-info { flex-grow: 1; }
-        .task-name { font-weight: 600; font-size: 1rem; margin-bottom: 2px; }
-        .task-meta { display: flex; align-items: center; gap: 0.75rem; font-size: 0.75rem; }
-        .task-file { font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); font-size: 0.8rem; }
-        .task-duration { color: var(--accent); font-weight: 700; background: rgba(37, 99, 235, 0.05); padding: 2px 8px; border-radius: 6px; font-size: 0.8rem; }
+        .task-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 2px; word-break: break-word; }
+        .task-meta { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; flex-wrap: wrap; }
+        .task-file { font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); font-size: 0.75rem; }
+        .task-duration { color: var(--accent); font-weight: 700; background: rgba(37, 99, 235, 0.05); padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; white-space: nowrap; }
 
         .task-controls {
             display: flex;
@@ -390,9 +414,37 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
+        /* ── Responsive Breakpoints ── */
+
+        /* Tablet */
+        @media (max-width: 900px) {
+            body { padding: 1.5rem 1rem; }
+            .checklist-card { padding: 1.5rem; }
+            .timer-card { padding: 2rem 1.5rem; }
+        }
+
+        /* Mobile */
         @media (max-width: 768px) {
-            .timer-grid { grid-template-columns: 1fr; }
-            header { flex-direction: column; align-items: center; gap: 1rem; }
+            .timer-grid { grid-template-columns: 1fr; gap: 1rem; }
+            header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+            .header-left > div { flex-wrap: wrap; gap: 0.5rem; }
+            #session-selector { max-width: 100%; }
+            .timer-card { padding: 1.5rem 1rem; }
+            .checklist-card { padding: 1.25rem; border-radius: 1rem; }
+            .task-item { padding: 0.875rem 1rem; gap: 0.75rem; }
+            .checkbox { width: 20px; height: 20px; flex-shrink: 0; }
+            .btn-play { width: 32px; height: 32px; }
+            .back-link { margin-top: 2rem; }
+        }
+
+        /* Small phones */
+        @media (max-width: 400px) {
+            body { padding: 1rem 0.75rem; }
+            h1 { font-size: 1.35rem; }
+            .badge { font-size: 0.65rem; }
+            .task-name { font-size: 0.875rem; }
+            .timer-card { padding: 1.25rem 0.875rem; }
+            .test-audio-btn { padding: 0.5rem 0.875rem; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -404,7 +456,7 @@
                 <div class="badge" id="session-badge">Session 1 • Live Sprint</div>
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <h1>Progress Tracker</h1>
-                    <select id="session-selector" onchange="switchSession(this.value)" style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.25rem 0.5rem; font-size: 0.8rem; font-weight: 600; cursor: pointer;">
+                    <select id="session-selector" onchange="switchSession(this.value)">
                         <option value="session1">Session 1: Part 1</option>
                         <option value="session1_p2">Session 1: Part 2</option>
                         <option value="session2">Session 2: Aeronautics</option>
