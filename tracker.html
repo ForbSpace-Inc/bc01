@@ -3,199 +3,540 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootcamp Sprint Tracker | 16:30 Deadline</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Bootcamp Sprint Tracker | ForbSpace 2026</title>
+    <meta name="description" content="Live sprint tracker for the ForbSpace Data Engineering Bootcamp sessions.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f8fafc;
+            --bg: #f1f5f9;
             --surface: #ffffff;
             --accent: #2563eb;
-            --accent-glow: rgba(37, 99, 235, 0.1);
-            --success: #10b881;
+            --accent-light: rgba(37, 99, 235, 0.08);
+            --success: #10b981;
             --warning: #f59e0b;
             --error: #ef4444;
             --text-primary: #0f172a;
             --text-secondary: #64748b;
             --border: #e2e8f0;
-            --glass: rgba(255, 255, 255, 0.8);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
+            background: var(--bg);
             color: var(--text-primary);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem 1.5rem;
-            background-image: 
-                radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(16, 184, 129, 0.05) 0%, transparent 40%);
+            padding: 0 0 4rem;
             line-height: 1.5;
         }
 
-        .container {
-            max-width: 900px;
-            width: 100%;
+        /* ── Top banner ── */
+        .top-banner {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
+            color: white;
+            padding: 1.5rem 2rem 2.5rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        header {
-            margin-bottom: 2.5rem;
+        .top-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .banner-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
+            align-items: flex-start;
             gap: 1rem;
             flex-wrap: wrap;
         }
 
-        .header-left { text-align: left; }
+        .banner-left {}
 
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(37, 99, 235, 0.08);
-            color: var(--accent);
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
+        .banner-eyebrow {
             font-size: 0.7rem;
-            font-weight: 800;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.75rem;
-            border: 1px solid rgba(37, 99, 235, 0.15);
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 0.4rem;
         }
 
-        h1 {
+        .banner-title {
             font-size: clamp(1.5rem, 5vw, 2.25rem);
             font-weight: 800;
             letter-spacing: -0.04em;
-            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .banner-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .session-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: blink 1.4s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .banner-right {
+            text-align: right;
+        }
+
+        .live-clock {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2rem, 8vw, 3.25rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            color: white;
+        }
+
+        .live-date {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.55);
             margin-top: 0.25rem;
+            font-weight: 500;
+        }
+
+        /* ── Session selector bar ── */
+        .selector-bar {
+            max-width: 900px;
+            margin: -1.25rem auto 0;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        .selector-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 0.85rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            flex-wrap: wrap;
+        }
+
+        .selector-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        #session-selector {
+            flex: 1;
+            min-width: 160px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 0.45rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        #session-selector:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
         }
 
         .test-audio-btn {
-            background: var(--surface);
+            background: var(--bg);
             border: 1px solid var(--border);
             color: var(--text-secondary);
-            padding: 0.6rem 1.25rem;
-            border-radius: 0.75rem;
-            font-size: 0.85rem;
+            padding: 0.45rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
             font-weight: 600;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            gap: 0.5rem;
+            white-space: nowrap;
         }
 
         .test-audio-btn:hover {
             border-color: var(--accent);
             color: var(--accent);
-            background: rgba(37, 99, 235, 0.02);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            background: var(--accent-light);
         }
 
-        /* Timer Section */
+        /* ── Main content ── */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem 0;
+        }
+
+        /* ── Timer grid ── */
         .timer-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        /* Session selector responsive */
-        #session-selector {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            max-width: 180px;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
         }
 
         .timer-card {
-            background: var(--glass);
-            backdrop-filter: blur(12px);
+            background: white;
             border: 1px solid var(--border);
-            border-radius: 1.5rem;
-            padding: 2.5rem 2rem;
+            border-radius: 1.25rem;
+            padding: 1.75rem 1.5rem;
             text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
             position: relative;
             overflow: hidden;
             transition: var(--transition);
         }
 
         .timer-card:hover {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
-        .timer-card.global::before { background: linear-gradient(to right, var(--accent), #1d4ed8); }
-        .timer-card.local::before { background: linear-gradient(to right, var(--success), #059669); }
-        
         .timer-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
         }
 
+        .timer-card.global::before { background: linear-gradient(90deg, #2563eb, #1d4ed8); }
+        .timer-card.local::before  { background: linear-gradient(90deg, #10b981, #059669); }
+
+        .timer-card.global { background: linear-gradient(160deg, #eff6ff 0%, #ffffff 60%); }
+        .timer-card.local  { background: linear-gradient(160deg, #f0fdf4 0%, #ffffff 60%); }
+
         .timer-label {
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
+            font-size: 0.68rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.09em;
+            color: var(--text-secondary);
+            margin-bottom: 0.6rem;
         }
 
         .timer-display {
             font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(2rem, 7vw, 3.5rem);
-            font-weight: 800;
+            font-size: clamp(1.75rem, 6vw, 3rem);
+            font-weight: 700;
             color: var(--accent);
-            margin-bottom: 0.5rem;
             display: flex;
             justify-content: center;
-            gap: 0.5rem;
-            letter-spacing: -0.05em;
+            gap: 0.35rem;
+            letter-spacing: -0.04em;
+            margin-bottom: 0.4rem;
             transition: color 0.3s ease;
         }
-        
-        .local .timer-display { color: #0f172a; }
-        .local.warning .timer-display { color: var(--error); }
-        .local.overtime .timer-display { color: var(--error); animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
 
-        /* Next Task Prompt */
+        .local .timer-display { color: var(--text-primary); }
+        .local.warning .timer-display { color: var(--warning); }
+        .local.overtime .timer-display { color: var(--error); animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both infinite; }
+
+        .timer-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .timer-unit span:last-child {
+            font-size: 0.58rem;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .timer-colon {
+            padding-bottom: 8px;
+            opacity: 0.5;
+        }
+
+        /* Progress bar */
+        .progress-container { margin-top: 1rem; }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+        }
+
+        .progress-bar-bg {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent), #10b981);
+            border-radius: 9999px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sprint-target {
+            font-size: 0.68rem;
+            color: var(--text-secondary);
+            margin-top: 0.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .sprint-target::before {
+            content: '';
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--warning);
+            flex-shrink: 0;
+        }
+
+        /* Active task name */
+        #active-task-name {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            margin-top: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* ── Checklist card ── */
+        .checklist-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+
+        .checklist-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-title {
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .task-count-badge {
+            background: var(--accent-light);
+            color: var(--accent);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            border: 1px solid rgba(37,99,235,0.15);
+        }
+
+        /* Task items */
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.9rem 1rem;
+            border-radius: 0.875rem;
+            transition: var(--transition);
+            margin-bottom: 0.5rem;
+            border: 1px solid transparent;
+            background: var(--bg);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .task-item:last-child { margin-bottom: 0; }
+
+        .task-item:hover {
+            background: white;
+            border-color: var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .task-item.active {
+            background: white;
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(37,99,235,0.12);
+        }
+
+        .task-item.completed { opacity: 0.55; }
+
+        .task-item.break-item {
+            background: #fefce8;
+            border-color: #fef08a;
+            opacity: 0.9;
+        }
+
+        .checkbox {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            border: 2px solid #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .task-item.completed .checkbox {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .checkbox svg { width: 13px; height: 13px; color: white; display: none; }
+        .task-item.completed .checkbox svg { display: block; }
+
+        .task-info { flex-grow: 1; min-width: 0; }
+
+        .task-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .task-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 3px;
+            flex-wrap: wrap;
+        }
+
+        .task-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: white;
+            border: 1px solid var(--border);
+            padding: 1px 6px;
+            border-radius: 4px;
+        }
+
+        .task-file {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .task-duration {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent);
+            background: var(--accent-light);
+            padding: 1px 7px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .task-controls { flex-shrink: 0; }
+
+        .btn-play {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .btn-play:hover { transform: scale(1.12); box-shadow: 0 4px 10px rgba(37,99,235,0.35); }
+        .task-item.active .btn-play { background: var(--success); animation: pulse-green 2s infinite; }
+        .break-item .btn-play { background: #d97706; }
+
+        @keyframes pulse-green {
+            0%   { box-shadow: 0 0 0 0 rgba(16,185,129, 0.5); }
+            70%  { box-shadow: 0 0 0 10px rgba(16,185,129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16,185,129, 0); }
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        /* ── Next task prompt ── */
         .next-prompt-overlay {
             position: fixed;
             bottom: 1.5rem;
             right: 1.5rem;
             left: 1.5rem;
-            background: var(--surface);
-            border: 1px solid var(--accent);
-            padding: 1.25rem 1.5rem;
-            border-radius: 1.25rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            background: white;
+            border: 1.5px solid var(--accent);
+            padding: 1.1rem 1.25rem;
+            border-radius: 1rem;
+            box-shadow: 0 16px 32px rgba(0,0,0,0.12);
             display: flex;
             align-items: center;
-            gap: 1.25rem;
+            gap: 1rem;
             z-index: 1000;
             transform: translateY(calc(100% + 2rem));
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -208,283 +549,138 @@
                 left: auto;
                 bottom: 2rem;
                 right: 2rem;
-                max-width: 350px;
+                max-width: 340px;
             }
         }
 
         .next-prompt-overlay.visible { transform: translateY(0); }
 
         .next-prompt-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(37, 99, 235, 0.1);
+            width: 42px; height: 42px;
+            background: var(--accent-light);
             color: var(--accent);
-            border-radius: 1rem;
+            border-radius: 0.75rem;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
         }
 
-        .next-prompt-info h4 { font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 2px; }
-        .next-prompt-info p { font-weight: 700; color: var(--text-primary); font-size: 0.95rem; }
+        .next-prompt-info h4 { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); margin-bottom: 2px; }
+        .next-prompt-info p { font-weight: 700; color: var(--text-primary); font-size: 0.9rem; }
 
-        @keyframes shake {
-            10%, 90% { transform: translate3d(-1px, 0, 0); }
-            20%, 80% { transform: translate3d(2px, 0, 0); }
-            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-            40%, 60% { transform: translate3d(4px, 0, 0); }
-        }
-
-        .timer-unit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .timer-unit span:last-child {
-            font-size: 0.65rem;
-            font-family: 'Inter', sans-serif;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            text-shadow: none;
-            letter-spacing: 0.1em;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            margin-top: 1rem;
-        }
-
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .progress-bar-bg {
-            height: 10px;
-            background: #f1f5f9;
-            border-radius: 9999px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(to right, var(--accent), #10b981);
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Checklist */
-        .checklist-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 1.5rem;
-            padding: 2rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .checklist-title {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding-left: 0.5rem;
-        }
-
-        .task-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.25rem;
-            border-radius: 1.25rem;
-            transition: var(--transition);
-            margin-bottom: 0.75rem;
-            border: 1px solid transparent;
-            background: var(--bg);
-            cursor: pointer;
-        }
-
-        .task-item:hover {
-            background: #fff;
-            border-color: var(--border);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            transform: scale(1.01);
-        }
-
-        .task-item.active {
-            background: #fff;
-            border-color: var(--accent);
-            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1);
-        }
-
-        .task-item.completed {
-            opacity: 0.6;
-        }
-
-        .checkbox {
-            width: 24px;
-            height: 24px;
-            border-radius: 6px;
-            border: 2px solid var(--text-secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .task-item.completed .checkbox {
-            background: var(--success);
-            border-color: var(--success);
-        }
-
-        .checkbox svg {
-            width: 16px;
-            height: 16px;
-            color: white;
-            display: none;
-        }
-
-        .task-item.completed .checkbox svg { display: block; }
-
-        .task-info { flex-grow: 1; }
-        .task-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 2px; word-break: break-word; }
-        .task-meta { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; flex-wrap: wrap; }
-        .task-file { font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); font-size: 0.75rem; }
-        .task-duration { color: var(--accent); font-weight: 700; background: rgba(37, 99, 235, 0.05); padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; white-space: nowrap; }
-
-        .task-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .btn-play {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: var(--accent);
-            border: none;
-            color: var(--bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-play:hover { transform: scale(1.1); background: white; }
-        .task-item.active .btn-play { background: var(--success); animation: pulse-green 2s infinite; }
-
-        @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-        }
-
+        /* ── Back link ── */
         .back-link {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-top: 3rem;
-            padding: 0.75rem 1.5rem;
-            background: var(--surface);
+            gap: 0.6rem;
+            margin-top: 2rem;
+            padding: 0.65rem 1.25rem;
+            background: white;
             border: 1px solid var(--border);
             color: var(--text-primary);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             font-weight: 600;
             border-radius: 0.75rem;
             transition: var(--transition);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
         }
 
         .back-link:hover {
             border-color: var(--accent);
             color: var(--accent);
-            transform: translateX(-4px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transform: translateX(-3px);
         }
 
-        /* ── Responsive Breakpoints ── */
-
-        /* Tablet */
+        /* ── Responsive ── */
         @media (max-width: 900px) {
-            body { padding: 1.5rem 1rem; }
-            .checklist-card { padding: 1.5rem; }
-            .timer-card { padding: 2rem 1.5rem; }
+            .container, .selector-bar { padding-left: 1.25rem; padding-right: 1.25rem; }
+            .top-banner { padding: 1.25rem 1.25rem 2.25rem; }
         }
 
-        /* Mobile */
         @media (max-width: 768px) {
             .timer-grid { grid-template-columns: 1fr; gap: 1rem; }
-            header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-            .header-left > div { flex-wrap: wrap; gap: 0.5rem; }
+            .banner-inner { flex-direction: column; align-items: flex-start; }
+            .banner-right { text-align: left; }
+            .selector-card { gap: 0.75rem; }
             #session-selector { max-width: 100%; }
-            .timer-card { padding: 1.5rem 1rem; }
-            .checklist-card { padding: 1.25rem; border-radius: 1rem; }
-            .task-item { padding: 0.875rem 1rem; gap: 0.75rem; }
-            .checkbox { width: 20px; height: 20px; flex-shrink: 0; }
-            .btn-play { width: 32px; height: 32px; }
-            .back-link { margin-top: 2rem; }
+            .checklist-card { padding: 1.1rem; }
+            .task-item { padding: 0.75rem 0.875rem; }
+            .task-name { font-size: 0.85rem; }
         }
 
-        /* Small phones */
         @media (max-width: 400px) {
-            body { padding: 1rem 0.75rem; }
-            h1 { font-size: 1.35rem; }
-            .badge { font-size: 0.65rem; }
-            .task-name { font-size: 0.875rem; }
-            .timer-card { padding: 1.25rem 0.875rem; }
-            .test-audio-btn { padding: 0.5rem 0.875rem; font-size: 0.8rem; }
+            .top-banner { padding: 1rem 1rem 2rem; }
+            .banner-title { font-size: 1.35rem; }
+            .live-clock { font-size: 2rem; }
+            .timer-card { padding: 1.25rem 1rem; }
+            .container { padding-left: 0.875rem; padding-right: 0.875rem; }
+            .selector-bar { padding-left: 0.875rem; padding-right: 0.875rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <div class="header-left">
-                <div class="badge" id="session-badge">Session 1 • Live Sprint</div>
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <h1>Progress Tracker</h1>
-                    <select id="session-selector" onchange="switchSession(this.value)">
-                        <option value="session1">Session 1: Part 1</option>
-                        <option value="session1_p2">Session 1: Part 2</option>
-                        <option value="session2">Session 2: Aeronautics</option>
-                        <option value="session3_d1">Session 3 Day 1: GIS/RS Intro</option>
-                        <option value="session3_d2">Session 3 Day 2: Practical Data</option>
-                    </select>
+    <!-- ── Top Banner ── -->
+    <div class="top-banner">
+        <div class="banner-inner">
+            <div class="banner-left">
+                <div class="banner-eyebrow">ForbSpace Bootcamp 2026</div>
+                <h1 class="banner-title">Sprint Tracker</h1>
+                <div class="banner-meta">
+                    <div class="session-pill" id="session-badge">
+                        <span class="live-dot"></span>
+                        Session 3 • Day 1
+                    </div>
                 </div>
             </div>
-            <button class="test-audio-btn" onclick="playNotificationSound()">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-                Test Audio Alert
-            </button>
-        </header>
+            <div class="banner-right">
+                <div class="live-clock" id="live-clock">00:00:00</div>
+                <div class="live-date" id="live-date">—</div>
+            </div>
+        </div>
+    </div>
 
+    <!-- ── Session Selector Bar ── -->
+    <div class="selector-bar">
+        <div class="selector-card">
+            <span class="selector-label">Session</span>
+            <select id="session-selector" onchange="switchSession(this.value)">
+                <option value="session3_d1">Session 3: Day 1 — GIS &amp; RS Intro</option>
+                <option value="session3_d2">Session 3: Day 2 — Practical Data</option>
+                <option value="session2">Session 2: Aeronautics</option>
+                <option value="session1_p2">Session 1: Part 2 — Mars Discovery</option>
+                <option value="session1">Session 1: Part 1 — Foundations</option>
+            </select>
+            <button class="test-audio-btn" onclick="playNotificationSound()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                Test Alert
+            </button>
+        </div>
+    </div>
+
+    <!-- ── Main Content ── -->
+    <div class="container">
+
+        <!-- Timer Grid -->
         <div class="timer-grid">
             <section class="timer-card global">
-                <div class="timer-label">Session Deadline [16:30]</div>
+                <div class="timer-label">Session Deadline</div>
                 <div class="timer-display" id="global-timer">
                     <div class="timer-unit"><span id="g-hours">00</span><span>Hrs</span></div>
-                    <span>:</span>
+                    <span class="timer-colon">:</span>
                     <div class="timer-unit"><span id="g-minutes">00</span><span>Min</span></div>
-                    <span>:</span>
+                    <span class="timer-colon">:</span>
                     <div class="timer-unit"><span id="g-seconds">00</span><span>Sec</span></div>
                 </div>
                 <div class="progress-container">
-                    <div class="progress-header"><span>Overall Mastery</span><span id="progress-percent">0%</span></div>
+                    <div class="progress-header">
+                        <span>Session Progress</span>
+                        <span id="progress-percent">0%</span>
+                    </div>
                     <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-bar"></div></div>
-                    <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.5rem; font-weight: 600;">Curriculum Sprint Target: 15:30</div>
+                    <div class="sprint-target">Curriculum Sprint Target: <span id="sprint-target-time">15:00</span></div>
                 </div>
             </section>
 
@@ -492,100 +688,58 @@
                 <div class="timer-label" id="local-label">Current Task Timer</div>
                 <div class="timer-display" id="local-timer">
                     <div class="timer-unit"><span id="l-minutes">00</span><span>Min</span></div>
-                    <span>:</span>
+                    <span class="timer-colon">:</span>
                     <div class="timer-unit"><span id="l-seconds">00</span><span>Sec</span></div>
                 </div>
-                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 1rem;" id="active-task-name">No active task</div>
+                <div id="active-task-name">No active task — click ▶ to start</div>
             </section>
         </div>
 
+        <!-- Checklist -->
         <section class="checklist-card">
-            <div class="checklist-title">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                Session Curriculum
+            <div class="checklist-header">
+                <div class="checklist-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    Session Curriculum
+                </div>
+                <span class="task-count-badge" id="task-count-badge">0 tasks</span>
             </div>
-
             <div id="task-list"></div>
         </section>
 
         <a href="index.html" class="back-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
             Back to Dashboard
         </a>
     </div>
 
-    <!-- Next Task Prompt Overlay -->
+    <!-- Next Task Prompt -->
     <div id="next-task-prompt" class="next-prompt-overlay">
         <div class="next-prompt-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </div>
         <div class="next-prompt-info">
             <h4>Ready for Next Section?</h4>
-            <p id="next-task-name-prompt">02c_lists_dicts.py</p>
+            <p id="next-task-name-prompt">—</p>
         </div>
     </div>
 
     <script>
         const SESSION_DATA = {
-            session1: {
-                name: "Session 1: Foundations (P1)",
-                badge: "Session 1 • Foundations",
-                deadline: "16:30",
-                start: "10:30",
-                tasks: [
-                    { id: 'recap', name: 'Session Recap & Warm-up', file: 'Concepts Review', mins: 15 },
-                    { id: 'hello', name: 'Python Handshake', file: '01_hello_world.py', mins: 10 },
-                    { id: 'vars', name: 'Variables & Data Types', file: '02_variables.py', mins: 20 },
-                    { id: 'input', name: 'The Human Factor', file: '03_user_input.py', mins: 20 },
-                    { id: 'math', name: 'Quick Math Logic', file: '04_math_operations.py', mins: 20 },
-                    { id: 'logic', name: 'The Decision Tree', file: '05_if_else.py', mins: 25 },
-                    { id: 'loops', name: 'The Repeater', file: '06_loops.py', mins: 25 },
-                    { id: 'while', name: 'The Infinite Horizon', file: '06b_while_loops.py', mins: 20 }
-                ]
-            },
-            session1_p2: {
-                name: "Session 1: Part 2 - Mars Discovery",
-                badge: "Session 1 • Mars Project",
-                deadline: "16:30",
-                start: "10:30",
-                tasks: [
-                    { id: 's1p2_recap', name: 'Python Loops Recap & Transition', file: 'Recap Doc', mins: 15 },
-                    { id: 's1p2_setup', name: 'Mars Rover Project Setup', file: 'Setup Ph', mins: 15 },
-                    { id: 's1p2_controls', name: 'Coding Rover Controls', file: 'Sprint 1', mins: 20 },
-                    { id: 's1p2_targets', name: 'Adding Science Targets', file: 'Sprint 2', mins: 25 },
-                    { id: 's1p2_timer', name: 'Mission Timer & Variables', file: 'Sprint 3', mins: 20 },
-                    { id: 's1p2_final', name: 'Final Challenges & Debugging', file: 'Windup', mins: 30 }
-                ]
-            },
-            session2: {
-                name: "Session 2: Aeronautics",
-                badge: "Session 2 • Python Takeoff",
-                deadline: "16:30",
-                start: "10:30",
-                tasks: [
-                    { id: 's2_math', name: 'Variables & Unit Conversions', file: 'Part 1.1-1.3', mins: 20 },
-                    { id: 's2_data', name: 'Lists & Dictionaries (Airports)', file: 'Part 1.4-1.5', mins: 25 },
-                    { id: 's2_logic', name: 'Descent Simulation (Logic)', file: 'Part 1.6-1.8', mins: 25 },
-                    { id: 's2_fn', name: 'Reusable Functions', file: 'Part 1.9', mins: 20 },
-                    { id: 's2_libs', name: 'Loading AIP Data', file: 'Part 2.1-2.2', mins: 15 },
-                    { id: 's2_pandas', name: 'Data Analysis with Pandas', file: 'Part 2.3', mins: 40 },
-                    { id: 's2_viz', name: 'Visualizing the Skies', file: 'Part 2.4', mins: 30 }
-                ]
-            },
             session3_d1: {
                 name: "Session 3: GIS & RS (Day 1)",
                 badge: "Session 3 • Day 1",
                 deadline: "15:00",
                 start: "10:00",
                 tasks: [
-                    { id: 's3d1_gis', name: 'Introduction to GIS', file: 'Theory', mins: 60 },
-                    { id: 's3d1_break1', name: 'Morning Break', file: 'Break', mins: 15 },
-                    { id: 's3d1_rs', name: 'Introduction to Remote Sensing', file: 'Theory', mins: 60 },
-                    { id: 's3d1_qa1', name: 'QA Session', file: 'Discussion', mins: 30 },
-                    { id: 's3d1_lunch', name: 'Lunch Break', file: 'Break', mins: 45 },
-                    { id: 's3d1_qgis_intro', name: 'Introduction to QGIS', file: 'Installation', mins: 45 },
-                    { id: 's3d1_qgis_int', name: 'QGIS Interaction', file: 'Hands-on', mins: 30 },
-                    { id: 's3d1_data', name: 'Dataset Interaction & Share', file: 'Recap', mins: 15 }
+                    { id: 's3d1_gis',       name: 'Introduction to GIS',          file: 'Theory',       time: '10:00–11:00', mins: 60 },
+                    { id: 's3d1_break1',    name: 'Morning Break',                file: 'Break',        time: '11:00–11:15', mins: 15, isBreak: true },
+                    { id: 's3d1_rs',        name: 'Introduction to Remote Sensing', file: 'Theory',     time: '11:15–12:15', mins: 60 },
+                    { id: 's3d1_qa1',       name: 'QA Session',                   file: 'Discussion',   time: '12:15–12:45', mins: 30 },
+                    { id: 's3d1_lunch',     name: 'Lunch Break',                  file: 'Break',        time: '12:45–13:30', mins: 45, isBreak: true },
+                    { id: 's3d1_qgis',      name: 'Introduction to QGIS',         file: 'Installation', time: '13:30–14:15', mins: 45 },
+                    { id: 's3d1_qgis_int',  name: 'QGIS Interaction',             file: 'Hands-on',     time: '14:15–14:45', mins: 30 },
+                    { id: 's3d1_data',      name: 'Dataset Interaction & Share',  file: 'Recap',        time: '14:45–15:00', mins: 15 }
                 ]
             },
             session3_d2: {
@@ -594,95 +748,93 @@
                 deadline: "15:00",
                 start: "10:00",
                 tasks: [
-                    { id: 's3d2_recap', name: 'Recap: GIS, RS & QGIS', file: 'Review', mins: 20 },
-                    { id: 's3d2_ex1', name: 'Ex 1: Loading & Exploring Data', file: 'Practical', mins: 40 },
-                    { id: 's3d2_break', name: 'Morning Break', file: 'Break', mins: 15 },
-                    { id: 's3d2_ex2', name: 'Ex 2: Data Preprocessing (Vector)', file: 'Practical', mins: 60 },
-                    { id: 's3d2_ex3', name: 'Ex 3: Raster Preprocessing (Clip)', file: 'Practical', mins: 45 },
-                    { id: 's3d2_lunch', name: 'Lunch Break', file: 'Break', mins: 45 },
-                    { id: 's3d2_ex4', name: 'Ex 4: Raster Preprocessing (Cloud)', file: 'Practical', mins: 75 }
+                    { id: 's3d2_recap',  name: 'Recap: GIS, RS & QGIS',              file: 'Review',    time: '10:00–10:20', mins: 20 },
+                    { id: 's3d2_ex1',    name: 'Ex 1: Loading & Exploring Data',      file: 'Practical', time: '10:20–11:00', mins: 40 },
+                    { id: 's3d2_break',  name: 'Morning Break',                       file: 'Break',     time: '11:00–11:15', mins: 15, isBreak: true },
+                    { id: 's3d2_ex2',    name: 'Ex 2: Data Preprocessing (Vector)',   file: 'Practical', time: '11:15–12:15', mins: 60 },
+                    { id: 's3d2_ex3',    name: 'Ex 3: Raster Preprocessing (Clip)',   file: 'Practical', time: '12:15–13:00', mins: 45 },
+                    { id: 's3d2_lunch',  name: 'Lunch Break',                         file: 'Break',     time: '13:00–13:45', mins: 45, isBreak: true },
+                    { id: 's3d2_ex4',    name: 'Ex 4: Raster Preprocessing (Cloud)',  file: 'Practical', time: '13:45–15:00', mins: 75 }
+                ]
+            },
+            session2: {
+                name: "Session 2: Aeronautics",
+                badge: "Session 2 • Python Takeoff",
+                deadline: "16:30",
+                start: "10:30",
+                tasks: [
+                    { id: 's2_math',   name: 'Variables & Unit Conversions',     file: 'Part 1.1–1.3', time: '10:30', mins: 20 },
+                    { id: 's2_data',   name: 'Lists & Dictionaries (Airports)',  file: 'Part 1.4–1.5', time: '10:50', mins: 25 },
+                    { id: 's2_logic',  name: 'Descent Simulation (Logic)',       file: 'Part 1.6–1.8', time: '11:15', mins: 25 },
+                    { id: 's2_fn',     name: 'Reusable Functions',               file: 'Part 1.9',     time: '11:40', mins: 20 },
+                    { id: 's2_libs',   name: 'Loading AIP Data',                 file: 'Part 2.1–2.2', time: '12:00', mins: 15 },
+                    { id: 's2_pandas', name: 'Data Analysis with Pandas',        file: 'Part 2.3',     time: '12:15', mins: 40 },
+                    { id: 's2_viz',    name: 'Visualizing the Skies',            file: 'Part 2.4',     time: '12:55', mins: 30 }
+                ]
+            },
+            session1_p2: {
+                name: "Session 1: Part 2 — Mars Discovery",
+                badge: "Session 1 • Mars Project",
+                deadline: "16:30",
+                start: "10:30",
+                tasks: [
+                    { id: 's1p2_recap',    name: 'Python Loops Recap & Transition', file: 'Recap Doc', time: '10:30', mins: 15 },
+                    { id: 's1p2_setup',    name: 'Mars Rover Project Setup',        file: 'Setup',     time: '10:45', mins: 15 },
+                    { id: 's1p2_controls', name: 'Coding Rover Controls',           file: 'Sprint 1',  time: '11:00', mins: 20 },
+                    { id: 's1p2_targets',  name: 'Adding Science Targets',          file: 'Sprint 2',  time: '11:20', mins: 25 },
+                    { id: 's1p2_timer',    name: 'Mission Timer & Variables',       file: 'Sprint 3',  time: '11:45', mins: 20 },
+                    { id: 's1p2_final',    name: 'Final Challenges & Debugging',    file: 'Windup',    time: '12:05', mins: 30 }
+                ]
+            },
+            session1: {
+                name: "Session 1: Foundations (P1)",
+                badge: "Session 1 • Foundations",
+                deadline: "16:30",
+                start: "10:30",
+                tasks: [
+                    { id: 'recap',  name: 'Session Recap & Warm-up',  file: 'Concepts Review',      time: '10:30', mins: 15 },
+                    { id: 'hello',  name: 'Python Handshake',         file: '01_hello_world.py',    time: '10:45', mins: 10 },
+                    { id: 'vars',   name: 'Variables & Data Types',   file: '02_variables.py',      time: '10:55', mins: 20 },
+                    { id: 'input',  name: 'The Human Factor',         file: '03_user_input.py',     time: '11:15', mins: 20 },
+                    { id: 'math',   name: 'Quick Math Logic',         file: '04_math_operations.py',time: '11:35', mins: 20 },
+                    { id: 'logic',  name: 'The Decision Tree',        file: '05_if_else.py',        time: '11:55', mins: 25 },
+                    { id: 'loops',  name: 'The Repeater',             file: '06_loops.py',          time: '12:20', mins: 25 },
+                    { id: 'while',  name: 'The Infinite Horizon',     file: '06b_while_loops.py',   time: '12:45', mins: 20 }
                 ]
             }
         };
 
-        let currentSessionId = 'session1';
+        let currentSessionId = 'session3_d1';
         let tasks = SESSION_DATA[currentSessionId].tasks;
-
-        function detectSession() {
-            const day = new Date().getDay(); // 0 is Sunday, 1 is Monday, ...
-            if (day === 2) return 'session1_p2'; // Tuesday is Part 2
-            if (day === 3) return 'session2'; // Wednesday
-            if (day === 4) return 'session3_d1'; // Thursday
-            if (day === 5) return 'session3_d2'; // Friday
-            return 'session1'; // Default to Session 1 P1 for Monday
-        }
-
-        function initSession() {
-            currentSessionId = localStorage.getItem('bootcamp_current_session') || detectSession();
-            document.getElementById('session-selector').value = currentSessionId;
-            loadSession(currentSessionId);
-        }
-
-        function loadSession(sessionId) {
-            currentSessionId = sessionId;
-            const session = SESSION_DATA[sessionId];
-            tasks = session.tasks;
-            
-            document.getElementById('session-badge').textContent = session.badge;
-            document.getElementById('local-card').classList.remove('overtime', 'warning');
-            
-            completedTasks = JSON.parse(localStorage.getItem(`bootcamp_done_${sessionId}`)) || [];
-            activeTaskId = localStorage.getItem(`bootcamp_active_${sessionId}`) || null;
-            activeTaskStartTime = localStorage.getItem(`bootcamp_start_${sessionId}`) ? parseInt(localStorage.getItem(`bootcamp_start_${sessionId}`)) : null;
-            
-            renderTasks();
-            updateProgress();
-            localStorage.setItem('bootcamp_current_session', sessionId);
-        }
-
-        function switchSession(sessionId) {
-            loadSession(sessionId);
-        }
-
         let completedTasks = [];
         let activeTaskId = null;
         let activeTaskStartTime = null;
         let soundPlayedForCurrent = false;
 
-        // Audio Context for the alert sound
+        /* ── Audio ── */
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
-        function playSound(type = 'alert') {
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
 
+        function playSound(type = 'alert') {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
             if (type === 'alert') {
-                oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // A5
-                oscillator.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.5); // A4
-                
-                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.05);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                oscillator.start();
-                oscillator.stop(audioCtx.currentTime + 0.5);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.5);
+                gain.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.5);
             } else if (type === 'prepare') {
-                // Upward chime
-                oscillator.type = 'triangle';
-                oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); 
-                oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.3); 
-                
-                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.1);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                oscillator.start();
-                oscillator.stop(audioCtx.currentTime + 0.4);
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.4);
             }
         }
 
@@ -691,6 +843,44 @@
             playSound('alert');
         }
 
+        /* ── Session management ── */
+        function initSession() {
+            currentSessionId = localStorage.getItem('bootcamp_current_session') || 'session3_d1';
+            document.getElementById('session-selector').value = currentSessionId;
+            loadSession(currentSessionId);
+        }
+
+        function loadSession(sessionId) {
+            currentSessionId = sessionId;
+            const session = SESSION_DATA[sessionId];
+            tasks = session.tasks;
+
+            document.getElementById('session-badge').innerHTML = `<span class="live-dot"></span>${session.badge}`;
+            document.getElementById('sprint-target-time').textContent = session.deadline;
+            document.getElementById('local-card').classList.remove('overtime', 'warning');
+
+            completedTasks = JSON.parse(localStorage.getItem(`bootcamp_done_${sessionId}`)) || [];
+            activeTaskId = localStorage.getItem(`bootcamp_active_${sessionId}`) || null;
+            activeTaskStartTime = localStorage.getItem(`bootcamp_start_${sessionId}`)
+                ? parseInt(localStorage.getItem(`bootcamp_start_${sessionId}`)) : null;
+
+            renderTasks();
+            updateProgress();
+            localStorage.setItem('bootcamp_current_session', sessionId);
+        }
+
+        function switchSession(sessionId) { loadSession(sessionId); }
+
+        /* ── Progress ── */
+        function updateProgress() {
+            const pct = Math.round((completedTasks.length / tasks.length) * 100);
+            document.getElementById('progress-bar').style.width = pct + '%';
+            document.getElementById('progress-percent').textContent = pct + '%';
+            document.getElementById('task-count-badge').textContent =
+                `${completedTasks.length} / ${tasks.length} done`;
+        }
+
+        /* ── Save ── */
         function save() {
             localStorage.setItem(`bootcamp_done_${currentSessionId}`, JSON.stringify(completedTasks));
             localStorage.setItem(`bootcamp_active_${currentSessionId}`, activeTaskId);
@@ -698,173 +888,166 @@
             updateProgress();
         }
 
-        function updateProgress() {
-            const percent = Math.round((completedTasks.length / tasks.length) * 100);
-            document.getElementById('progress-bar').style.width = percent + '%';
-            document.getElementById('progress-percent').textContent = percent + '%';
-        }
-
+        /* ── Task interaction ── */
         function toggleTask(id, event) {
-            // Prevent interference with the Play button
             if (event.target.closest('.btn-play')) return;
-            
             if (completedTasks.includes(id)) {
                 completedTasks = completedTasks.filter(t => t !== id);
             } else {
                 completedTasks.push(id);
-                if (activeTaskId === id) {
-                    activeTaskId = null;
-                    activeTaskStartTime = null;
-                }
+                if (activeTaskId === id) { activeTaskId = null; activeTaskStartTime = null; }
             }
-            renderTasks();
-            save();
+            renderTasks(); save();
         }
 
         function startTask(id) {
             if (activeTaskId === id) {
-                // If clicking active, just reset or stop? Let's say toggle stop
-                activeTaskId = null;
-                activeTaskStartTime = null;
+                activeTaskId = null; activeTaskStartTime = null;
             } else {
                 activeTaskId = id;
                 activeTaskStartTime = Date.now();
                 soundPlayedForCurrent = false;
-                // Force AudioContext resume (user gesture)
                 if (audioCtx.state === 'suspended') audioCtx.resume();
             }
-            renderTasks();
-            save();
+            renderTasks(); save();
         }
 
+        /* ── Render tasks ── */
         function renderTasks() {
             const taskList = document.getElementById('task-list');
-            taskList.innerHTML = tasks.map(task => `
-                <div class="task-item ${completedTasks.includes(task.id) ? 'completed' : ''} ${activeTaskId === task.id ? 'active' : ''}" onclick="toggleTask('${task.id}', event)">
+            taskList.innerHTML = tasks.map(task => {
+                const isDone   = completedTasks.includes(task.id);
+                const isActive = activeTaskId === task.id;
+                const isBreak  = task.isBreak;
+                const classes  = [
+                    'task-item',
+                    isDone   ? 'completed'  : '',
+                    isActive ? 'active'     : '',
+                    isBreak  ? 'break-item' : ''
+                ].filter(Boolean).join(' ');
+
+                const timeChip = task.time
+                    ? `<span class="task-time">${task.time}</span>` : '';
+
+                const playIcon = isActive
+                    ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`
+                    : `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+
+                return `
+                <div class="${classes}" onclick="toggleTask('${task.id}', event)">
                     <div class="checkbox">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                     </div>
                     <div class="task-info">
                         <div class="task-name">${task.name}</div>
                         <div class="task-meta">
+                            ${timeChip}
                             <span class="task-file">${task.file}</span>
-                            <span class="task-duration">${task.mins}m</span>
+                            <span class="task-duration">${task.mins}min</span>
                         </div>
                     </div>
                     <div class="task-controls">
-                        <button class="btn-play" onclick="startTask('${task.id}')" title="Start Lesson Timer">
-                            ${activeTaskId === task.id ? 
-                                '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>' : 
-                                '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>'
-                            }
-                        </button>
+                        <button class="btn-play" onclick="startTask('${task.id}')" title="${isActive ? 'Stop' : 'Start'} Timer">${playIcon}</button>
                     </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
 
+        /* ── Live clock ── */
+        function updateClock() {
+            const now = new Date();
+            const hh = now.getHours().toString().padStart(2, '0');
+            const mm = now.getMinutes().toString().padStart(2, '0');
+            const ss = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('live-clock').textContent = `${hh}:${mm}:${ss}`;
+
+            const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+            const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            document.getElementById('live-date').textContent =
+                `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+        }
+
+        /* ── Timers ── */
         function updateTimers() {
-            const nowTimestamp = Date.now();
-            const now = new Date(nowTimestamp);
-            
-            // Global Timer
+            const nowTs = Date.now();
+            const now = new Date(nowTs);
             const session = SESSION_DATA[currentSessionId];
-            const [dHour, dMin] = session.deadline.split(':');
-            const deadline = new Date();
-            deadline.setHours(parseInt(dHour), parseInt(dMin), 0, 0);
-            
-            let gDiff = deadline - nowTimestamp;
+
+            // Global countdown
+            const [dH, dM] = session.deadline.split(':').map(Number);
+            const deadline = new Date(); deadline.setHours(dH, dM, 0, 0);
+            const gDiff = deadline - nowTs;
+
             if (gDiff <= 0) {
-                document.getElementById('global-timer').innerHTML = '<div style="color:var(--error); font-size: 2rem;">SESSION ENDED</div>';
-                document.getElementById('progress-bar').style.width = '100%';
+                document.getElementById('global-timer').innerHTML =
+                    '<div style="color:var(--error);font-size:1.5rem;font-weight:800;">SESSION ENDED</div>';
             } else {
-                const totalWindow = (parseInt(dHour) * 60 + parseInt(dMin)) - (parseInt(session.start.split(':')[0]) * 60 + parseInt(session.start.split(':')[1]));
-                const elapsedMin = (now.getHours() * 60 + now.getMinutes()) - (parseInt(session.start.split(':')[0]) * 60 + parseInt(session.start.split(':')[1]));
-                
-                const h = Math.floor(gDiff / (1000 * 60 * 60));
-                const m = Math.floor((gDiff % (1000 * 60 * 60)) / (1000 * 60));
-                const s = Math.floor((gDiff % (1000 * 60)) / 1000);
-                
-                if (document.getElementById('g-hours')) { // Check if elements exist before updating
-                    document.getElementById('g-hours').textContent = h.toString().padStart(2, '0');
+                const h = Math.floor(gDiff / 3600000);
+                const m = Math.floor((gDiff % 3600000) / 60000);
+                const s = Math.floor((gDiff % 60000) / 1000);
+                const gh = document.getElementById('g-hours');
+                if (gh) {
+                    gh.textContent = h.toString().padStart(2, '0');
                     document.getElementById('g-minutes').textContent = m.toString().padStart(2, '0');
                     document.getElementById('g-seconds').textContent = s.toString().padStart(2, '0');
-                } else {
-                    // Fallback if innerHTML was replaced
-                    document.getElementById('global-timer').innerHTML = `
-                        <div class="timer-unit"><span>${h.toString().padStart(2, '0')}</span><span>Hrs</span></div>
-                        <span>:</span>
-                        <div class="timer-unit"><span>${m.toString().padStart(2, '0')}</span><span>Min</span></div>
-                        <span>:</span>
-                        <div class="timer-unit"><span>${s.toString().padStart(2, '0')}</span><span>Sec</span></div>
-                    `;
                 }
             }
 
-            // Local Timer
+            // Local task timer
             if (activeTaskId) {
                 const task = tasks.find(t => t.id === activeTaskId);
-                const elapsed = nowTimestamp - activeTaskStartTime;
-                const totalMins = task.mins * 60 * 1000;
-                let remaining = totalMins - elapsed;
+                const elapsed = nowTs - activeTaskStartTime;
+                const totalMs = task.mins * 60000;
+                const remaining = totalMs - elapsed;
 
-                document.getElementById('active-task-name').textContent = "Learning: " + task.name;
-                
+                document.getElementById('active-task-name').textContent = '▶ ' + task.name;
+
                 if (remaining <= 0) {
                     document.getElementById('local-card').classList.add('overtime');
                     document.getElementById('local-card').classList.remove('warning');
-                    document.getElementById('local-label').textContent = "OVERTIME";
-                    
-                    document.getElementById('l-minutes').textContent = "00";
-                    document.getElementById('l-seconds').textContent = "00";
-                    
+                    document.getElementById('local-label').textContent = 'OVERTIME';
+                    document.getElementById('l-minutes').textContent = '00';
+                    document.getElementById('l-seconds').textContent = '00';
+
                     if (!soundPlayedForCurrent) {
                         playSound('alert');
-                        
-                        // Sequence: Show Prompt + Play different sound
-                        const currentIndex = tasks.findIndex(t => t.id === activeTaskId);
-                        const nextTask = tasks[currentIndex + 1];
-                        
-                        if (nextTask) {
+                        const idx = tasks.findIndex(t => t.id === activeTaskId);
+                        const next = tasks[idx + 1];
+                        if (next) {
                             setTimeout(() => {
-                                document.getElementById('next-task-name-prompt').textContent = nextTask.name;
+                                document.getElementById('next-task-name-prompt').textContent = next.name;
                                 document.getElementById('next-task-prompt').classList.add('visible');
                                 playSound('prepare');
-                                
-                                // Hide after 8 seconds
                                 setTimeout(() => {
                                     document.getElementById('next-task-prompt').classList.remove('visible');
                                 }, 8000);
                             }, 1000);
                         }
-                        
                         soundPlayedForCurrent = true;
                     }
                 } else {
                     document.getElementById('local-card').classList.remove('overtime');
-                    
-                    // 5 Minute Warning (300,000 ms)
-                    if (remaining <= 300000) {
-                        document.getElementById('local-card').classList.add('warning');
-                    } else {
-                        document.getElementById('local-card').classList.remove('warning');
-                    }
+                    document.getElementById('local-card').classList[remaining <= 300000 ? 'add' : 'remove']('warning');
+                    document.getElementById('local-label').textContent = 'Current Task Timer';
 
-                    document.getElementById('local-label').textContent = "Local Task Timer";
-                    const lm = Math.floor(remaining / (1000 * 60));
-                    const ls = Math.floor((remaining % (1000 * 60)) / 1000);
+                    const lm = Math.floor(remaining / 60000);
+                    const ls = Math.floor((remaining % 60000) / 1000);
                     document.getElementById('l-minutes').textContent = lm.toString().padStart(2, '0');
                     document.getElementById('l-seconds').textContent = ls.toString().padStart(2, '0');
                 }
             } else {
-                document.getElementById('active-task-name').textContent = "No active task";
-                document.getElementById('l-minutes').textContent = "00";
-                document.getElementById('l-seconds').textContent = "00";
+                document.getElementById('active-task-name').textContent = 'No active task — click ▶ to start';
+                document.getElementById('l-minutes').textContent = '00';
+                document.getElementById('l-seconds').textContent = '00';
                 document.getElementById('local-card').classList.remove('overtime', 'warning');
+                document.getElementById('local-label').textContent = 'Current Task Timer';
             }
         }
 
+        // Boot
+        setInterval(updateClock, 1000);
         setInterval(updateTimers, 1000);
+        updateClock();
         initSession();
         updateTimers();
     </script>

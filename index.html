@@ -491,12 +491,42 @@
             z-index: 5;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        /* Live Tracker Button */
+        /* Photos Download Button */
+        .photos-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+            padding: 0.75rem 1rem;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            border-radius: 0.75rem;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .photos-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+            filter: brightness(1.1);
+        }
+
+        .photos-btn svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* Live Tracker Button Overrides */
         .tracker-btn {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            margin-top: 1.5rem;
+            margin-top: 0.75rem;
             padding: 0.75rem 1rem;
             background: var(--text-primary);
             color: white;
@@ -612,6 +642,12 @@
         <div class="sidebar-header">
             <h1>ForbSpace Bootcamp 2026</h1>
             <p>Your journey into the world of coding starts here!</p>
+            <a href="https://photos.app.goo.gl/te83ZnJyeTVZsWcc8" target="_blank" class="photos-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>
+                </svg>
+                Download Photos
+            </a>
             <a href="tracker.html" class="tracker-btn">LIVE Sprint Tracker</a>
         </div>
 
