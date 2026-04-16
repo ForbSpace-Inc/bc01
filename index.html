@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bootcamp Resources | Documentation</title>
     <meta name="description" content="Documentation and learning materials for the Data Engineering Bootcamp.">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=2">
-    <link rel="shortcut icon" href="/favicon.ico?v=2">
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
+    <link rel="shortcut icon" href="favicon.ico?v=2">
+    
+    <!-- Mobile Excellence -->
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,33 +29,36 @@
     
     <style>
         :root {
-            /* Premium Color Palette */
-            --primary-hsl: 243, 75%, 59%; /* Indigo */
+            /* Ultimate Premium Color Palette */
+            --primary-hsl: 243, 75%, 59%;
             --primary: hsl(var(--primary-hsl));
-            --primary-light: hsla(var(--primary-hsl), 0.1);
-            --primary-glow: hsla(var(--primary-hsl), 0.3);
+            --primary-dark: hsl(243, 75%, 45%);
+            --primary-light: hsla(var(--primary-hsl), 0.08);
+            --primary-glow: hsla(var(--primary-hsl), 0.25);
             
-            --bg-body: #f8fafc;
-            --bg-sidebar: rgba(255, 255, 255, 0.7);
+            --bg-body: #f1f5f9;
+            --bg-sidebar: rgba(255, 255, 255, 0.85);
             --bg-card: #ffffff;
             
             --text-main: #0f172a;
             --text-muted: #64748b;
+            --text-secondary: #475569;
             --text-inverse: #ffffff;
             
-            --border: rgba(226, 232, 240, 0.8);
-            --sidebar-width: 280px;
+            --border: rgba(226, 232, 240, 0.6);
+            --sidebar-width: 290px;
             
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.3);
-            --glass-blur: 12px;
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --glass-blur: 16px;
             
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+            --shadow-md: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 25px 50px -12px rgb(0 0 0 / 0.15);
             
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
@@ -68,8 +76,16 @@
             height: 100vh;
             overflow: hidden;
             display: flex;
-            flex-direction: column; /* Mobile-first: Stack top-bar and content */
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
+
+        /* ── Custom Scrollbar ── */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.1); border-radius: 10px; transition: var(--transition); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-glow); }
 
         /* ── Sidebar & Menu Toggle (Mobile First) ── */
         .sidebar-backdrop {
@@ -110,23 +126,56 @@
         }
 
         .sidebar-header {
-            padding: 2.5rem 1.5rem 1.5rem;
+            padding: 2.5rem 1.5rem 1.75rem;
             border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            width: 34px;
+            height: 34px;
+            display: none; /* Desktop hidden */
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-body);
+            color: var(--text-secondary);
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-menu:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+            transform: rotate(90deg);
         }
 
         .sidebar-header h2 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), #8b5cf6);
+            font-size: 1.35rem;
+            font-weight: 850;
+            background: linear-gradient(135deg, var(--primary), #8b5cf6, #3b82f6);
+            background-size: 200% 200%;
+            animation: gradient-flow 6s ease infinite;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .sidebar-header p {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            margin-top: 0.25rem;
+            margin-top: 0.35rem;
+            font-weight: 500;
         }
 
         .nav-group {
@@ -248,13 +297,80 @@
         }
 
         .content-inner {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
             background: var(--bg-card);
-            padding: 2.5rem 1.5rem;
-            border-radius: 20px;
+            padding: 3rem 2rem;
+            border-radius: 24px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
+            animation: content-slide-up 0.6s var(--ease-out);
+        }
+
+        @keyframes content-slide-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Skeleton Loaders ── */
+        .skeleton {
+            background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 1.5s infinite linear;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes skeleton-shimmer {
+            from { background-position: 200% 0; }
+            to { background-position: -200% 0; }
+        }
+
+        .sk-h1 { height: 40px; width: 80%; margin-bottom: 2rem; }
+        .sk-p { height: 18px; width: 100%; margin-bottom: 1rem; }
+        .sk-p.last { width: 60%; }
+        .sk-code { height: 200px; width: 100%; border-radius: 16px; margin: 2rem 0; }
+
+        /* ── Toasts ── */
+        #toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 0.85rem 1.5rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: toast-in 0.4s var(--ease-out) forwards;
+            pointer-events: auto;
+        }
+
+        @keyframes toast-in {
+            from { opacity: 0; transform: translate(30px, 0); }
+            to { opacity: 1; transform: translate(0, 0); }
+        }
+
+        .toast.out {
+            animation: toast-out 0.4s var(--ease-out) forwards;
+        }
+
+        @keyframes toast-out {
+            to { opacity: 0; transform: translate(0, 20px) scale(0.95); }
         }
 
         /* Desktop Adjustments (Media Queries) */
@@ -455,9 +571,14 @@
                 left: 0;
                 height: 100%;
                 width: min(var(--sidebar-width), 85vw);
-                z-index: 50;
+                z-index: 200;
                 transform: translateX(-110%);
-                box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+                box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+                transition: transform 0.5s var(--ease-out);
+            }
+
+            .close-menu {
+                display: flex;
             }
 
             .sidebar.open {
@@ -561,52 +682,6 @@
             flex-shrink: 0;
         }
 
-        /* Live Tracker Button Overrides */
-        .tracker-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-top: 0.75rem;
-            padding: 0.85rem 1.25rem;
-            background: var(--text-main);
-            color: white;
-            border-radius: 12px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 700;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-            padding-left: 2.75rem;
-            width: 100%;
-        }
-
-        .tracker-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-            background: #1e293b;
-        }
-
-        .tracker-btn::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 1rem;
-            width: 10px;
-            height: 10px;
-            background: #10b981;
-            border-radius: 50%;
-            transform: translateY(-50%);
-            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-            animation: pulse-green-ring 2s infinite;
-        }
-
-        @keyframes pulse-green-ring {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
 
         /* Data Download Box */
         .download-box {
@@ -680,18 +755,22 @@
 
     <aside class="sidebar" id="main-sidebar">
         <div class="sidebar-header">
-            <h2 style="font-size: 1.25rem; font-weight: 800; background: linear-gradient(135deg, var(--primary), #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.02em;">ForbSpace Bootcamp 2026</h2>
+            <button class="close-menu" onclick="closeSidebar()" aria-label="Close menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            <h2>ForbSpace Bootcamp 2026</h2>
             <p>Your journey into the world of coding starts here!</p>
-            <a href="https://photos.app.goo.gl/te83ZnJyeTVZsWcc8" target="_blank" class="photos-btn">
+            <a href="https://photos.app.goo.gl/te83ZnJyeTVZsWcc8" target="_blank" rel="noopener noreferrer" class="photos-btn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>
                 </svg>
                 Download Photos
             </a>
-            <a href="tracker.html" class="tracker-btn">LIVE Sprint Tracker</a>
         </div>
 
-        <nav id="sidebar-nav">
+        <nav id="sidebar-nav" style="flex: 1; overflow-y: auto; padding-bottom: 2rem;">
             <!-- Session 3 (Current) -->
             <div class="nav-group">
                 <div class="nav-title" onclick="loadFile(sessions.s3_intro, 'Session 3 GIS & RS')">Session 3: GIS & RS</div>
@@ -726,7 +805,7 @@
                     <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
                 </svg>
             </button>
-            <div class="breadcrumb" id="breadcrumb">Session 1 / introduction.md</div>
+            <div class="breadcrumb" id="breadcrumb">Session 3 / introduction.md</div>
         </div>
 
         <div class="content-body" id="main-content">
@@ -744,6 +823,8 @@
             </div>
         </div>
     </main>
+
+    <div id="toast-container"></div>
 
     <script>
         // Store current code globally to avoid breaking onclick attributes with special characters
@@ -991,38 +1072,51 @@
             if (!textToCopy) return;
 
             try {
-                // Check if Clipboard API is supported and available (requires secure context)
                 if (navigator.clipboard && window.isSecureContext) {
                     await navigator.clipboard.writeText(textToCopy);
-                    showSuccess(btn);
+                    showToast('Code copied to clipboard!');
                 } else {
                     throw new Error('Clipboard API unavailable');
                 }
             } catch (err) {
-                // Fallback for non-secure contexts (like file:// protocol)
                 const textArea = document.createElement("textarea");
                 textArea.value = textToCopy;
-                
-                // Ensure textarea is not visible but part of DOM
                 textArea.style.position = "fixed";
                 textArea.style.left = "-9999px";
                 textArea.style.top = "0";
                 document.body.appendChild(textArea);
-                
                 textArea.focus();
                 textArea.select();
-                
                 try {
                     const successful = document.execCommand('copy');
-                    if (successful) showSuccess(btn);
-                    else btn.textContent = 'Error';
+                    if (successful) showToast('Code copied to clipboard!');
+                    else showToast('Failed to copy code.', true);
                 } catch (fallbackErr) {
-                    console.error('Fallback copy failed', fallbackErr);
-                    btn.textContent = 'Error';
+                    showToast('Failed to copy code.', true);
                 }
-                
                 document.body.removeChild(textArea);
             }
+        }
+
+        function showToast(message, isError = false) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            if (isError) toast.style.borderColor = '#ef4444';
+            
+            toast.innerHTML = `
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${isError ? '#ef4444' : '#10b981'}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    ${isError ? '<circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line>' : '<polyline points="20 6 9 17 4 12"></polyline>'}
+                </svg>
+                ${message}
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('out');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
         }
 
         function setupCheckboxes(filePath) {
@@ -1050,144 +1144,84 @@
             });
         }
 
-        function showSuccess(btn) {
-            const originalText = btn.textContent;
-            btn.textContent = 'Copied!';
-            btn.classList.add('copied');
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.classList.remove('copied');
-            }, 2000);
+        function showSkeleton() {
+            const contentDiv = document.getElementById('markdown-content');
+            contentDiv.innerHTML = `
+                <div class="skeleton sk-h1"></div>
+                <div class="skeleton sk-p"></div>
+                <div class="skeleton sk-p"></div>
+                <div class="skeleton sk-p last"></div>
+                <div class="skeleton sk-code"></div>
+                <div class="skeleton sk-p"></div>
+                <div class="skeleton sk-p last"></div>
+            `;
         }
 
         async function loadFile(file, sessionName) {
-            // Update UI state
-            document.querySelectorAll('.nav-item, .nav-title').forEach(el => el.classList.remove('active'));
-            
             // Highlight in sidebar
+            document.querySelectorAll('.nav-item, .nav-title').forEach(el => el.classList.remove('active'));
             const items = document.querySelectorAll('.nav-item');
-            let found = false;
             items.forEach(item => {
-                if (item.textContent === file.name) {
-                    item.classList.add('active');
-                    found = true;
-                }
+                if (item.textContent.trim() === file.name.trim()) item.classList.add('active');
             });
-            if (!found) {
-                const titles = document.querySelectorAll('.nav-title');
-                titles.forEach(title => {
-                    if (title.textContent.includes(sessionName)) title.classList.add('active');
-                });
-            }
 
             document.getElementById('breadcrumb').textContent = `${sessionName} / ${file.name}`;
-            
-            // Handle loading vs locked view
             document.getElementById('locked-message').style.display = 'none';
             const contentDiv = document.getElementById('markdown-content');
             contentDiv.style.display = 'block';
-            contentDiv.innerHTML = '<p style="color: var(--text-secondary)">Loading...</p>';
+            
+            // Show Skeleton UI
+            showSkeleton();
+            document.querySelector('.content-body').scrollTop = 0;
 
-            // ── Dataset type: render inline, no fetch needed ──
-            if (file.type === 'dataset') {
+            const delay = (ms) => new Promise(res => setTimeout(res, ms));
+
+            // Artifical delay for skeleton visibility
+            await delay(120);
+
+            if (file.type === 'dataset' || file.type === 'kahoot') {
+                const isDataset = file.type === 'dataset';
+                const color = isDataset ? '#10b981' : '#7c3aed';
+                const bg = isDataset ? 'linear-gradient(135deg,#ecfdf5,#d1fae5)' : 'linear-gradient(135deg,#faf5ff,#f3e8ff)';
+                const icon = isDataset ? icons.dataset : icons.kahoot;
+                
                 contentDiv.innerHTML = `
-                    <div style="text-align:center; padding: 3rem 2rem; border: 2px dashed var(--border); border-radius: 1rem; background: #f8fafc;">
-                        <div style="width:64px;height:64px;margin:0 auto 1.25rem;background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-radius:1rem;display:flex;align-items:center;justify-content:center;border:1px solid #bbf7d0;">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <div style="text-align:center; padding: 4rem 2rem; border: 2px dashed ${color}33; border-radius: 24px; background: ${bg}; animation: content-slide-up 0.5s var(--ease-out);">
+                        <div style="width:72px; height:72px; margin:0 auto 1.5rem; background:${color}; border-radius:18px; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 16px ${color}44;">
+                            <span style="color:white; width:32px; height:32px; display:block;">${icon}</span>
                         </div>
-                        <h3 style="margin-bottom:0.5rem;font-size:1.25rem;">${file.name}</h3>
-                        <p style="color:var(--text-secondary);margin-bottom:0.35rem;font-size:0.85rem;">Hosted on Google Drive — opens in a new tab</p>
-                        <p style="color:#9ca3af;font-size:0.75rem;font-family:'JetBrains Mono',monospace;margin-bottom:2rem;">drive.google.com › Session 3 Datasets</p>
+                        <h2 style="margin-bottom:0.75rem; font-size:1.75rem; border-bottom:none; padding-bottom:0; color:var(--text-main);">${file.name}</h2>
+                        <p style="color:var(--text-secondary); margin-bottom:0.5rem; font-size:1rem;">External Resource — opens in a new tab</p>
+                        <p style="color:#9ca3af; font-size:0.8rem; font-family:'JetBrains Mono',monospace; margin-bottom:2.5rem;">${file.externalUrl ? file.externalUrl.split('/')[2] : 'kahoot.it'}</p>
                         <a href="${file.externalUrl}" target="_blank" rel="noopener noreferrer"
-                           style="display:inline-flex;align-items:center;gap:0.6rem;background:#10b981;color:#fff;text-decoration:none;padding:0.85rem 2rem;border-radius:0.65rem;font-size:0.95rem;font-weight:700;box-shadow:0 4px 12px rgba(16,185,129,0.3);transition:all 0.2s ease;"
-                           onmouseover="this.style.background='#059669';this.style.transform='translateY(-2px)'"
-                           onmouseout="this.style.background='#10b981';this.style.transform='translateY(0)'">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                            Open &amp; Download Dataset
+                           style="display:inline-flex; align-items:center; gap:0.75rem; background:${color}; color:#fff; text-decoration:none; padding:1rem 2.5rem; border-radius:14px; font-size:1.1rem; font-weight:700; box-shadow:0 10px 20px ${color}44; transition: var(--transition);"
+                           onmouseover="this.style.transform='translateY(-3px)'; this.style.filter='brightness(1.1)'"
+                           onmouseout="this.style.transform='translateY(0)'; this.style.filter='brightness(1)'">
+                            ${icon}
+                            Open ${isDataset ? 'Dataset' : 'Kahoot Quiz'}
                         </a>
                     </div>
                     ${file.instructions ? `
-                        <div class="doc-section" style="margin-top:2rem;text-align:left;">
-                            <h3 style="margin-bottom:1.5rem;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                                Dataset Details &amp; Contents
-                            </h3>
-                            ${file.instructions.concepts ? `
-                                <div class="doc-item">
-                                    <span class="doc-label">About this Dataset</span>
-                                    <div class="doc-text">${file.instructions.concepts}</div>
-                                </div>` : ''}
-                            ${file.instructions.activity ? `
-                                <div class="doc-item">
-                                    <span class="doc-label">What's Included</span>
-                                    <div class="doc-text">${file.instructions.activity}</div>
-                                </div>` : ''}
-                        </div>` : ''}
-                `;
-                return;
-            }
-
-            // ── Kahoot type: render inline, no fetch needed ──
-            if (file.type === 'kahoot') {
-                contentDiv.innerHTML = `
-                    <div style="text-align:center; padding: 3rem 2rem; border: 2px dashed #e9d5ff; border-radius: 1rem; background: linear-gradient(135deg,#faf5ff,#f3e8ff);">
-                        <div style="width:64px;height:64px;margin:0 auto 1.25rem;background:linear-gradient(135deg,#7c3aed,#9333ea);border-radius:1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(124,58,237,0.35);">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                        </div>
-                        <h3 style="margin-bottom:0.5rem;font-size:1.25rem;">${file.name}</h3>
-                        <p style="color:#7c3aed;font-weight:600;margin-bottom:0.35rem;font-size:0.9rem;">Interactive recap quiz — join on any device</p>
-                        <p style="color:#9ca3af;font-size:0.75rem;font-family:'JetBrains Mono',monospace;margin-bottom:2rem;">kahoot.it</p>
-                        <a href="${file.externalUrl}" target="_blank" rel="noopener noreferrer"
-                           style="display:inline-flex;align-items:center;gap:0.6rem;background:#7c3aed;color:#fff;text-decoration:none;padding:0.85rem 2rem;border-radius:0.65rem;font-size:0.95rem;font-weight:700;box-shadow:0 4px 14px rgba(124,58,237,0.35);transition:all 0.2s ease;"
-                           onmouseover="this.style.background='#6d28d9';this.style.transform='translateY(-2px)'"
-                           onmouseout="this.style.background='#7c3aed';this.style.transform='translateY(0)'">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                            Join Kahoot &rarr;
-                        </a>
-                    </div>
-                    ${file.instructions ? `
-                        <div class="doc-section" style="margin-top:2rem;text-align:left;">
-                            <h3 style="margin-bottom:1.5rem;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                                How It Works
-                            </h3>
-                            ${file.instructions.concepts ? `
-                                <div class="doc-item">
-                                    <span class="doc-label">About this Quiz</span>
-                                    <div class="doc-text">${file.instructions.concepts}</div>
-                                </div>` : ''}
-                            ${file.instructions.activity ? `
-                                <div class="doc-item">
-                                    <span class="doc-label">Joining Instructions</span>
-                                    <div class="doc-text">${file.instructions.activity}</div>
-                                </div>` : ''}
+                        <div class="doc-section" style="margin-top:3rem;">
+                            <h3>Content Overview</h3>
+                            ${file.instructions.concepts ? `<div class="doc-item"><span class="doc-label">About</span><div class="doc-text">${file.instructions.concepts}</div></div>` : ''}
+                            ${file.instructions.activity ? `<div class="doc-item"><span class="doc-label">Activity</span><div class="doc-text">${file.instructions.activity}</div></div>` : ''}
                         </div>` : ''}
                 `;
                 return;
             }
 
             try {
-                // Use root-relative path to avoid resolution issues with query strings or base URL changes
-                const fetchPath = file.path.startsWith('/') ? file.path : '/' + file.path;
-                const response = await fetch(fetchPath, { cache: 'no-store' });
-                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                const response = await fetch(file.path, { cache: 'no-store' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const text = await response.text();
 
                 if (file.type === 'md') {
-                    try {
-                        contentDiv.innerHTML = marked.parse(text);
-                    } catch (parseErr) {
-                        // Fallback: render as plain preformatted text if markdown parsing fails
-                        console.warn('marked.parse failed, falling back to plain text:', parseErr);
-                        contentDiv.innerHTML = `<pre style="white-space:pre-wrap;font-family:inherit;">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`;
-                    }
-                    // Open all links in a new tab
+                    contentDiv.innerHTML = marked.parse(text);
                     contentDiv.querySelectorAll('a[href]').forEach(a => {
                         a.setAttribute('target', '_blank');
                         a.setAttribute('rel', 'noopener noreferrer');
                     });
-                    
-                    // Post-process for Mermaid
                     const mermaidBlocks = contentDiv.querySelectorAll('pre code.language-mermaid');
                     mermaidBlocks.forEach((block) => {
                         const div = document.createElement('div');
@@ -1196,122 +1230,34 @@
                         block.parentElement.replaceWith(div);
                     });
                     if (mermaidBlocks.length > 0) await mermaid.run();
-                    
-                    // Initialize interactive checkboxes
                     setupCheckboxes(file.path);
                 } else if (file.type === 'code') {
-                    // Update global state for copy function
                     window.currentCode = text;
-                    
-                    // Render code with Prism
                     const highlighted = Prism.highlight(text, Prism.languages.python, 'python');
                     contentDiv.innerHTML = `
-                        <h1>${file.name}</h1>
-                        <p style="color:var(--text-secondary)">Preview the code below. You can copy it directly or download the file.</p>
+                        <h1 style="border-bottom:none; margin-bottom:0.5rem;">${file.name}</h1>
+                        <p style="color:var(--text-secondary); margin-bottom:2.5rem;">Technical Implementation Guide</p>
                         <div class="code-header">
-                            <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                            <button class="copy-btn" onclick="copyToClipboard(this)">Copy Code</button>
                         </div>
                         <pre class="language-python"><code class="language-python">${highlighted}</code></pre>
-                        <div class="download-footer">
-                            <span style="font-size: 0.85rem; color: var(--text-secondary)">Need the full file?</span>
-                            <a href="${file.path}" download class="download-btn-small">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                Download .py File
-                            </a>
-                        </div>
                         ${file.instructions ? `
                             <div class="doc-section">
-                                <h3>
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-                                    Coding Concepts & Documentation
-                                </h3>
-                                ${file.instructions.concepts ? `
-                                    <div class="doc-item">
-                                        <span class="doc-label">Key Concepts</span>
-                                        <div class="doc-text">${file.instructions.concepts}</div>
-                                    </div>
-                                ` : ''}
-                                ${file.instructions.activity ? `
-                                    <div class="doc-item">
-                                        <span class="doc-label">Next Steps</span>
-                                        <div class="doc-text">${file.instructions.activity}</div>
-                                    </div>
-                                ` : ''}
-                                ${file.instructions.pitfalls ? `
-                                    <div class="doc-item">
-                                        <span class="doc-label">Common Pitfalls</span>
-                                        <div class="doc-text">${file.instructions.pitfalls}</div>
-                                    </div>
-                                ` : ''}
-                                ${file.instructions.solution ? `
-                                    <div class="doc-item">
-                                        <span class="doc-label">The Fix</span>
-                                        <div class="doc-text">${file.instructions.solution}</div>
-                                    </div>
-                                ` : ''}
-                            </div>
-                        ` : ''}
-                    `;
-                } else {
-                    const extension = file.name.split('.').pop().toUpperCase();
-                    contentDiv.innerHTML = `
-                        <div style="text-align:center; padding: 4rem 2rem; border: 2px dashed var(--border); border-radius: 1rem; background: #f8fafc;">
-                            <span style="font-size: 3rem; margin-bottom: 1rem; display: block;">${icons[file.type].replace('viewBox', 'style="width:64px;height:64px" viewBox')}</span>
-                            <h3>${file.name}</h3>
-                            <p style="color: var(--text-secondary); margin-bottom: 2rem;">This file type cannot be previewed. Please download it to view the content.</p>
-                            <a href="${file.path}" download class="download-btn-small" style="padding: 1rem 2rem; font-size: 1rem;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                Download ${extension} File
-                            </a>
-                        </div>
-                        ${file.instructions ? `
-                            <div class="doc-section" style="margin-top: 2rem; text-align: left;">
-                                <h3 style="margin-bottom: 1.5rem;">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-                                    File Details & Metadata
-                                </h3>
-                                ${file.instructions.concepts ? `
-                                    <div class="doc-item">
-                                        <span class="doc-label">Description</span>
-                                        <div class="doc-text">${file.instructions.concepts}</div>
-                                    </div>
-                                ` : ''}
-                                ${file.instructions.activity ? `
-                                    <div class="doc-item">
-                                        <span class="doc-label">Structure / Columns</span>
-                                        <div class="doc-text">${file.instructions.activity}</div>
-                                    </div>
-                                ` : ''}
+                                <h3>Documentation</h3>
+                                ${Object.entries(file.instructions).map(([key, val]) => `
+                                    <div class="doc-item"><span class="doc-label">${key}</span><div class="doc-text">${val}</div></div>
+                                `).join('')}
                             </div>
                         ` : ''}
                     `;
                 }
             } catch (err) {
-                const isLocal = window.location.protocol === 'file:';
-                let errorTitle, errorMessage;
-                if (err.message.includes('HTTP')) {
-                    errorTitle = '⚠️ File Not Found';
-                    errorMessage = `The file <code>${file.path}</code> could not be located on the server (${err.message}).`;
-                } else if (isLocal) {
-                    errorTitle = '⚠️ Access Restriction';
-                    errorMessage = 'CORS policy prevents fetching local files directly in some browsers. Please use a local server (e.g. VS Code Live Server) or download the file.';
-                } else {
-                    errorTitle = '⚠️ Network Error';
-                    errorMessage = `Could not load <code>${file.path}</code>. Check that the file exists and the server is reachable.<br><small style="opacity:0.7">${err.message}</small>`;
-                }
-
                 contentDiv.innerHTML = `
-                    <div style="text-align:center; padding: 3rem; background: #fff1f2; color: #991b1b; border-radius: 1rem; border: 1px solid #fecaca; max-width: 600px; margin: 3rem auto;">
-                        <h3 style="margin-bottom: 1rem;">${errorTitle}</h3>
-                        <p style="margin-bottom: 1.5rem; line-height: 1.5; font-size: 0.95rem;">${errorMessage}</p>
-                        <div style="display: flex; gap: 1rem; justify-content: center;">
-                            <a href="${file.path}" download class="download-btn-small" style="background: #991b1b;">
-                                Download File
-                            </a>
-                            <button onclick="location.reload()" class="download-btn-small" style="background: #64748b; border: none; cursor: pointer;">
-                                Retry
-                            </button>
-                        </div>
+                    <div style="text-align:center; padding: 4rem 2rem; background: #fff1f2; color: #991b1b; border-radius: 24px; border: 1px solid #fecaca; max-width: 600px; margin: 3rem auto; animation: content-slide-up 0.5s var(--ease-out);">
+                        <div style="font-size:3rem; margin-bottom:1.5rem;">⚠️</div>
+                        <h3 style="margin-bottom: 1rem; font-size:1.5rem;">Failed to Load Content</h3>
+                        <p style="margin-bottom: 2rem; font-size:1.05rem; opacity:0.8;">${err.message}: The requested resource could not be fetched.</p>
+                        <button onclick="location.reload()" class="copy-btn" style="background:#cc1d1d; color:white; padding:1rem 2rem; border-radius:12px; font-size:1rem;">Retry Connection</button>
                     </div>
                 `;
             }
