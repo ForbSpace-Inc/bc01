@@ -9,14 +9,12 @@
     <link rel="shortcut icon" href="favicon.ico?v=2">
     
     <!-- Mobile Excellence -->
-    <meta name="theme-color" content="#4f46e5">
+    <meta name="theme-color" content="#e31b23">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
     <!-- Marked.js for Markdown rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
@@ -29,35 +27,31 @@
     
     <style>
         :root {
-            /* Ultimate Premium Color Palette */
-            --primary-hsl: 243, 75%, 59%;
-            --primary: hsl(var(--primary-hsl));
-            --primary-dark: hsl(243, 75%, 45%);
-            --primary-light: hsla(var(--primary-hsl), 0.08);
-            --primary-glow: hsla(var(--primary-hsl), 0.25);
+            /* ForbSpace Brand Design System */
+            --primary: #e31b23;
+            --primary-dark: #bd161c;
+            --primary-light: rgba(227, 27, 35, 0.08);
+            --primary-glow: rgba(227, 27, 35, 0.2);
             
-            --bg-body: #f1f5f9;
-            --bg-sidebar: rgba(255, 255, 255, 0.85);
+            --bg-body: #ffffff;
+            --bg-sidebar: #0f1115;
             --bg-card: #ffffff;
             
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --text-secondary: #475569;
+            --text-main: #0f1115;
+            --text-muted: #6b7280;
+            --text-secondary: #4b5563;
             --text-inverse: #ffffff;
             
-            --border: rgba(226, 232, 240, 0.6);
-            --sidebar-width: 290px;
+            --border: #e5e7eb;
+            --sidebar-width: 300px;
             
-            --glass-bg: rgba(255, 255, 255, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.4);
-            --glass-blur: 16px;
+            --font-headings: 'Playfair Display', serif;
             
-            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-            --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
-            --shadow-md: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 25px 50px -12px rgb(0 0 0 / 0.15);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
             
-            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.3s var(--ease-out);
             --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -110,15 +104,14 @@
             left: 0;
             height: 100%;
             width: var(--sidebar-width);
-            background: var(--glass-bg);
-            backdrop-filter: blur(var(--glass-blur));
-            border-right: 1px solid var(--glass-border);
-            z-index: 50;
+            background: var(--bg-sidebar);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 200;
             transform: translateX(-100%);
             transition: var(--transition);
             display: flex;
             flex-direction: column;
-            box-shadow: var(--shadow-lg);
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
         }
 
         .sidebar.open {
@@ -129,6 +122,16 @@
             padding: 2.5rem 1.5rem 1.75rem;
             border-bottom: 1px solid var(--border);
             position: relative;
+        }
+
+        .sidebar-header .logo-link {
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .sidebar-header .logo-link:hover {
+            transform: translateX(4px);
         }
 
         .close-menu {
@@ -155,27 +158,21 @@
         }
 
         .sidebar-header h2 {
-            font-size: 1.35rem;
-            font-weight: 850;
-            background: linear-gradient(135deg, var(--primary), #8b5cf6, #3b82f6);
-            background-size: 200% 200%;
-            animation: gradient-flow 6s ease infinite;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.03em;
-        }
-
-        @keyframes gradient-flow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            font-family: var(--font-headings);
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: var(--text-inverse);
+            letter-spacing: -0.01em;
+            line-height: 1.1;
         }
 
         .sidebar-header p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 0.35rem;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 0.5rem;
             font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .nav-group {
@@ -183,22 +180,15 @@
         }
 
         .nav-title {
-            padding: 0.75rem 1.5rem;
-            font-size: 0.7rem;
+            padding: 1.25rem 1.5rem 0.5rem;
+            font-size: 0.65rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-muted);
-            cursor: pointer;
+            letter-spacing: 0.12em;
+            color: rgba(255, 255, 255, 0.4);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: var(--transition);
-        }
-
-        .nav-title:hover {
-            color: var(--primary);
-            background: var(--primary-light);
         }
 
         .nav-list {
@@ -206,27 +196,27 @@
         }
 
         .nav-item {
-            padding: 0.65rem 1.5rem;
-            font-size: 0.875rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.85rem;
             font-weight: 500;
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.7);
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.85rem;
             transition: var(--transition);
-            border-left: 3px solid transparent;
+            border-left: 4px solid transparent;
         }
 
         .nav-item:hover {
-            color: var(--text-main);
-            background: rgba(0, 0, 0, 0.02);
+            color: var(--text-inverse);
+            background: rgba(255, 255, 255, 0.05);
             padding-left: 1.75rem;
         }
 
         .nav-item.active {
-            color: var(--primary);
-            background: var(--primary-light);
+            color: var(--text-inverse);
+            background: rgba(227, 27, 35, 0.15);
             border-left-color: var(--primary);
             font-weight: 600;
         }
@@ -234,7 +224,7 @@
         .nav-item svg {
             width: 18px;
             height: 18px;
-            opacity: 0.7;
+            opacity: 0.6;
         }
 
         /* ── Main Container ── */
@@ -250,14 +240,13 @@
 
         .top-bar {
             height: 64px;
-            padding: 0 1rem;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(8px);
+            padding: 0 1.5rem;
+            background: #ffffff;
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
-            gap: 1rem;
-            z-index: 30;
+            gap: 1.25rem;
+            z-index: 100;
             flex-shrink: 0;
         }
 
@@ -292,15 +281,18 @@
         .content-body {
             flex: 1;
             overflow-y: auto;
-            padding: 2rem 1rem 5rem;
+            display: flex;
+            flex-direction: column;
             scroll-behavior: smooth;
         }
 
         .content-inner {
+            flex: 1;
             max-width: 850px;
-            margin: 0 auto;
+            width: 100%;
+            margin: 2rem auto 4rem;
             background: var(--bg-card);
-            padding: 3rem 2rem;
+            padding: 3rem 2.5rem 5rem;
             border-radius: 24px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
@@ -400,7 +392,7 @@
             }
 
             .content-body {
-                padding: 3rem 2rem 6rem;
+                padding: 0;
             }
 
             .content-inner {
@@ -414,10 +406,10 @@
             position: relative;
         }
 
-        #markdown-content h1 { font-size: 2.25rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--text-main); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; letter-spacing: -0.02em; }
-        #markdown-content h2 { font-size: 1.5rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--text-main); letter-spacing: -0.01em; }
-        #markdown-content h3 { font-size: 1.25rem; font-weight: 600; margin: 1.5rem 0 0.75rem; color: var(--text-main); }
-        #markdown-content p { margin-bottom: 1.25rem; font-size: 1.05rem; }
+        #markdown-content h1 { font-family: var(--font-headings); font-size: 2.75rem; font-weight: 500; margin-bottom: 2rem; color: var(--text-main); border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; letter-spacing: -0.01em; line-height: 1.1; }
+        #markdown-content h2 { font-family: var(--font-headings); font-size: 1.85rem; font-weight: 500; margin: 3rem 0 1.25rem; color: var(--text-main); letter-spacing: -0.01em; line-height: 1.2; }
+        #markdown-content h3 { font-family: var(--font-headings); font-size: 1.4rem; font-weight: 500; margin: 2rem 0 1rem; color: var(--text-main); letter-spacing: -0.01em; }
+        #markdown-content p { margin-bottom: 1.25rem; font-size: 1.1rem; color: #374151; font-weight: 400; }
         #markdown-content ul, #markdown-content ol { margin-bottom: 1.25rem; padding-left: 1.5rem; }
         #markdown-content li { margin-bottom: 0.6rem; }
         
@@ -455,21 +447,20 @@
         }
 
         .copy-btn {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #f8fafc;
-            padding: 0.5rem 1rem;
+            background: var(--bg-sidebar);
+            color: #ffffff;
+            padding: 0.5rem 1.25rem;
             border-radius: 8px;
             font-size: 0.75rem;
             font-weight: 600;
+            border: none;
             cursor: pointer;
             transition: var(--transition);
         }
 
         .copy-btn:hover {
             background: var(--primary);
-            color: white;
+            box-shadow: 0 4px 12px rgba(227, 27, 35, 0.3);
             transform: translateY(-1px);
         }
 
@@ -498,7 +489,7 @@
         .doc-section {
             margin-top: 5rem;
             padding: 2.5rem;
-            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            background: #ffffff;
             border: 1px solid var(--border);
             border-left: 5px solid var(--primary);
             border-radius: 20px;
@@ -552,7 +543,7 @@
         /* Tablet (≤ 1024px) — narrower sidebar */
         @media (max-width: 1024px) and (min-width: 769px) {
             :root { --sidebar-width: 240px; }
-            .content-body { padding: 2.5rem 1.5rem 5rem; }
+            .content-body { padding: 0; }
             #markdown-content h1 { font-size: 1.85rem; }
             #markdown-content h2 { font-size: 1.3rem; }
         }
@@ -591,12 +582,15 @@
                 height: 56px;
             }
 
-            .main-container {
-                width: 100%;
+            .content-body {
+                padding: 0;
             }
 
-            .content-body {
-                padding: 1.5rem 1rem 5rem;
+            .content-inner {
+                margin: 1.5rem 1rem 3rem;
+                padding: 2.5rem 1.25rem 4rem;
+                border-radius: 16px;
+                width: auto;
             }
 
             #markdown-content h1 { font-size: 1.65rem; }
@@ -656,30 +650,81 @@
         .photos-btn {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            justify-content: center;
+            gap: 0.5rem;
             margin-top: 1.5rem;
-            padding: 0.85rem 1.25rem;
-            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+            padding: 0.6rem 1.25rem;
+            background: var(--primary);
             color: white;
-            border-radius: 12px;
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 700;
             transition: var(--transition);
-            box-shadow: 0 4px 12px hsla(var(--primary-hsl), 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--primary);
         }
 
         .photos-btn:hover {
+            background: transparent;
+            color: var(--primary);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px hsla(var(--primary-hsl), 0.4);
-            filter: brightness(1.1);
+            box-shadow: 0 8px 20px rgba(227, 27, 35, 0.2);
         }
 
         .photos-btn svg {
             width: 18px;
             height: 18px;
             flex-shrink: 0;
+        }
+
+        /* ── Institutional Footer ── */
+        .site-footer {
+            background: #0f1115;
+            color: #ffffff;
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+        }
+
+        .footer-inner {
+            max-width: 850px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-logo {
+            font-family: var(--font-headings);
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #ffffff;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-logo:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 500;
+        }
+
+        .footer-bottom strong {
+            color: var(--primary);
+        }
+
+        @media (max-width: 600px) {
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.75rem;
+            }
         }
 
 
@@ -760,8 +805,10 @@
                     <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
                 </svg>
             </button>
-            <h2>ForbSpace Bootcamp 2026</h2>
-            <p>Your journey into the world of coding starts here!</p>
+            <a href="javascript:void(0)" onclick="loadFile(sessions.s3_intro, 'Session 3')" class="logo-link">
+                <h2>ForbSpace Bootcamp 2026</h2>
+                <p>Your journey into the world of coding starts here!</p>
+            </a>
             <a href="https://photos.app.goo.gl/te83ZnJyeTVZsWcc8" target="_blank" rel="noopener noreferrer" class="photos-btn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>
@@ -821,6 +868,15 @@
                     <p style="color: var(--text-muted)">Loading content...</p>
                 </div>
             </div>
+
+            <footer class="site-footer">
+                <div class="footer-inner">
+                    <a href="https://app.forbspace.com/" target="_blank" class="footer-logo">ForbSpace</a>
+                    <div class="footer-bottom">
+                        <p>&copy; 2026 <strong>ForbSpace</strong>. All rights reserved.</p>
+                    </div>
+                </div>
+            </footer>
         </div>
     </main>
 
@@ -1179,11 +1235,14 @@
             // Artifical delay for skeleton visibility
             await delay(120);
 
-            if (file.type === 'dataset' || file.type === 'kahoot') {
+            if (file.type === 'dataset' || file.type === 'kahoot' || file.type === 'geo') {
                 const isDataset = file.type === 'dataset';
-                const color = isDataset ? '#10b981' : '#7c3aed';
-                const bg = isDataset ? 'linear-gradient(135deg,#ecfdf5,#d1fae5)' : 'linear-gradient(135deg,#faf5ff,#f3e8ff)';
-                const icon = isDataset ? icons.dataset : icons.kahoot;
+                const isGeo = file.type === 'geo';
+                const color = 'var(--primary)';
+                const bg = 'linear-gradient(135deg, #ffffff 0%, var(--primary-light) 100%)';
+                const icon = icons[file.type];
+                const actionUrl = file.externalUrl || file.path;
+                const actionLabel = isDataset ? 'Open Dataset' : (isGeo ? 'Download GeoJSON' : 'Open Kahoot Quiz');
                 
                 contentDiv.innerHTML = `
                     <div style="text-align:center; padding: 4rem 2rem; border: 2px dashed ${color}33; border-radius: 24px; background: ${bg}; animation: content-slide-up 0.5s var(--ease-out);">
@@ -1192,13 +1251,13 @@
                         </div>
                         <h2 style="margin-bottom:0.75rem; font-size:1.75rem; border-bottom:none; padding-bottom:0; color:var(--text-main);">${file.name}</h2>
                         <p style="color:var(--text-secondary); margin-bottom:0.5rem; font-size:1rem;">External Resource — opens in a new tab</p>
-                        <p style="color:#9ca3af; font-size:0.8rem; font-family:'JetBrains Mono',monospace; margin-bottom:2.5rem;">${file.externalUrl ? file.externalUrl.split('/')[2] : 'kahoot.it'}</p>
-                        <a href="${file.externalUrl}" target="_blank" rel="noopener noreferrer"
-                           style="display:inline-flex; align-items:center; gap:0.75rem; background:${color}; color:#fff; text-decoration:none; padding:1rem 2.5rem; border-radius:14px; font-size:1.1rem; font-weight:700; box-shadow:0 10px 20px ${color}44; transition: var(--transition);"
-                           onmouseover="this.style.transform='translateY(-3px)'; this.style.filter='brightness(1.1)'"
+                        <p style="color:#9ca3af; font-size:0.8rem; font-family:'JetBrains Mono',monospace; margin-bottom:2.5rem;">${file.externalUrl ? file.externalUrl.split('/')[2] : (isGeo ? 'forbspace.com' : 'Internal Resource')}</p>
+                        <a href="${actionUrl}" target="_blank" rel="noopener noreferrer"
+                           style="display:inline-flex; align-items:center; gap:0.6rem; background:${color}; color:#fff; text-decoration:none; padding:0.65rem 1.5rem; border-radius:10px; font-size:0.9rem; font-weight:700; box-shadow:0 8px 16px ${color}11; transition: var(--transition);"
+                           onmouseover="this.style.transform='translateY(-2px)'; this.style.filter='brightness(1.1)'"
                            onmouseout="this.style.transform='translateY(0)'; this.style.filter='brightness(1)'">
                             ${icon}
-                            Open ${isDataset ? 'Dataset' : 'Kahoot Quiz'}
+                            ${actionLabel}
                         </a>
                     </div>
                     ${file.instructions ? `
