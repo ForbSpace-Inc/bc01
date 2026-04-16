@@ -138,8 +138,8 @@
             position: absolute;
             top: 1.25rem;
             right: 1.25rem;
-            width: 34px;
-            height: 34px;
+            width: 30px;
+            height: 30px;
             display: none; /* Desktop hidden */
             align-items: center;
             justify-content: center;
@@ -252,8 +252,8 @@
 
         .menu-toggle {
             display: flex;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border: none;
             background: var(--primary-light);
             color: var(--primary);
@@ -449,9 +449,9 @@
         .copy-btn {
             background: var(--bg-sidebar);
             color: #ffffff;
-            padding: 0.5rem 1.25rem;
+            padding: 0.4rem 0.9rem;
             border-radius: 8px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             border: none;
             cursor: pointer;
@@ -653,12 +653,12 @@
             justify-content: center;
             gap: 0.5rem;
             margin-top: 1.5rem;
-            padding: 0.6rem 1.25rem;
+            padding: 0.45rem 1rem;
             background: var(--primary);
             color: white;
             border-radius: 8px;
             text-decoration: none;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
             transition: var(--transition);
             border: 1px solid var(--primary);
@@ -771,9 +771,9 @@
             background: #10b981;
             color: #ffffff;
             text-decoration: none;
-            padding: 0.6rem 0.85rem;
+            padding: 0.45rem 0.75rem;
             border-radius: 0.5rem;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
             transition: var(--transition);
             box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
@@ -1235,14 +1235,15 @@
             // Artifical delay for skeleton visibility
             await delay(120);
 
-            if (file.type === 'dataset' || file.type === 'kahoot' || file.type === 'geo') {
+            if (file.type === 'dataset' || file.type === 'kahoot' || file.type === 'geo' || file.type === 'notebook') {
                 const isDataset = file.type === 'dataset';
                 const isGeo = file.type === 'geo';
+                const isNotebook = file.type === 'notebook';
                 const color = 'var(--primary)';
                 const bg = 'linear-gradient(135deg, #ffffff 0%, var(--primary-light) 100%)';
                 const icon = icons[file.type];
                 const actionUrl = file.externalUrl || file.path;
-                const actionLabel = isDataset ? 'Open Dataset' : (isGeo ? 'Download GeoJSON' : 'Open Kahoot Quiz');
+                const actionLabel = isDataset ? 'Open Dataset' : (isGeo ? 'Download GeoJSON' : (isNotebook ? 'Download Notebook' : 'Open Kahoot Quiz'));
                 
                 contentDiv.innerHTML = `
                     <div style="text-align:center; padding: 4rem 2rem; border: 2px dashed ${color}33; border-radius: 24px; background: ${bg}; animation: content-slide-up 0.5s var(--ease-out);">
@@ -1250,10 +1251,10 @@
                             <span style="color:white; width:32px; height:32px; display:block;">${icon}</span>
                         </div>
                         <h2 style="margin-bottom:0.75rem; font-size:1.75rem; border-bottom:none; padding-bottom:0; color:var(--text-main);">${file.name}</h2>
-                        <p style="color:var(--text-secondary); margin-bottom:0.5rem; font-size:1rem;">External Resource — opens in a new tab</p>
-                        <p style="color:#9ca3af; font-size:0.8rem; font-family:'JetBrains Mono',monospace; margin-bottom:2.5rem;">${file.externalUrl ? file.externalUrl.split('/')[2] : (isGeo ? 'forbspace.com' : 'Internal Resource')}</p>
+                        <p style="color:var(--text-secondary); margin-bottom:0.5rem; font-size:1rem;">${(isGeo || isNotebook) ? 'Local Resource — download and open' : 'External Resource — opens in a new tab'}</p>
+                        <p style="color:#9ca3af; font-size:0.8rem; font-family:'JetBrains Mono',monospace; margin-bottom:2.5rem;">${file.externalUrl ? file.externalUrl.split('/')[2] : (isGeo || isNotebook ? 'forbspace.com' : 'Internal Resource')}</p>
                         <a href="${actionUrl}" target="_blank" rel="noopener noreferrer"
-                           style="display:inline-flex; align-items:center; gap:0.6rem; background:${color}; color:#fff; text-decoration:none; padding:0.65rem 1.5rem; border-radius:10px; font-size:0.9rem; font-weight:700; box-shadow:0 8px 16px ${color}11; transition: var(--transition);"
+                           style="display:inline-flex; align-items:center; gap:0.6rem; background:${color}; color:#fff; text-decoration:none; padding:0.5rem 1.2rem; border-radius:10px; font-size:0.8rem; font-weight:700; box-shadow:0 8px 16px ${color}11; transition: var(--transition);"
                            onmouseover="this.style.transform='translateY(-2px)'; this.style.filter='brightness(1.1)'"
                            onmouseout="this.style.transform='translateY(0)'; this.style.filter='brightness(1)'">
                             ${icon}
@@ -1316,7 +1317,7 @@
                         <div style="font-size:3rem; margin-bottom:1.5rem;">⚠️</div>
                         <h3 style="margin-bottom: 1rem; font-size:1.5rem;">Failed to Load Content</h3>
                         <p style="margin-bottom: 2rem; font-size:1.05rem; opacity:0.8;">${err.message}: The requested resource could not be fetched.</p>
-                        <button onclick="location.reload()" class="copy-btn" style="background:#cc1d1d; color:white; padding:1rem 2rem; border-radius:12px; font-size:1rem;">Retry Connection</button>
+                        <button onclick="location.reload()" class="copy-btn" style="background:#cc1d1d; color:white; padding:0.6rem 1.2rem; border-radius:10px; font-size:0.85rem;">Retry Connection</button>
                     </div>
                 `;
             }
