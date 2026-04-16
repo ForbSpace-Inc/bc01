@@ -408,7 +408,8 @@
                         <option value="session1">Session 1: Part 1</option>
                         <option value="session1_p2">Session 1: Part 2</option>
                         <option value="session2">Session 2: Aeronautics</option>
-                        <option value="session3">Session 3: GIS Bridge</option>
+                        <option value="session3_d1">Session 3 Day 1: GIS/RS Intro</option>
+                        <option value="session3_d2">Session 3 Day 2: Practical Data</option>
                     </select>
                 </div>
             </div>
@@ -519,19 +520,35 @@
                     { id: 's2_viz', name: 'Visualizing the Skies', file: 'Part 2.4', mins: 30 }
                 ]
             },
-            session3: {
-                name: "Session 3: GIS Bridge",
-                badge: "Session 3 • Spatial Python",
-                deadline: "16:30",
-                start: "13:30",
+            session3_d1: {
+                name: "Session 3: GIS & RS (Day 1)",
+                badge: "Session 3 • Day 1",
+                deadline: "15:00",
+                start: "10:00",
                 tasks: [
-                    { id: 's3_geojson', name: 'Spatial Data Basics', file: 'Part 1', mins: 20 },
-                    { id: 's3_folium', name: 'Interactive Maps (Folium)', file: 'Part 2', mins: 30 },
-                    { id: 's3_dist', name: 'Distance & Nearest Neighbor', file: 'Part 3', mins: 30 },
-                    { id: 's3_dbscan', name: 'Spatial Clustering (ML)', file: 'Part 4', mins: 30 },
-                    { id: 's3_rs', name: 'Remote Sensing Intro', file: 'Part 5', mins: 20 },
-                    { id: 's3_ndvi', name: 'Calculating NDVI', file: 'Part 5.4', mins: 30 },
-                    { id: 's3_crs', name: 'Coordinate Systems (CRS)', file: 'Part 6', mins: 20 }
+                    { id: 's3d1_gis', name: 'Introduction to GIS', file: 'Theory', mins: 60 },
+                    { id: 's3d1_break1', name: 'Morning Break', file: 'Break', mins: 15 },
+                    { id: 's3d1_rs', name: 'Introduction to Remote Sensing', file: 'Theory', mins: 60 },
+                    { id: 's3d1_qa1', name: 'QA Session', file: 'Discussion', mins: 30 },
+                    { id: 's3d1_lunch', name: 'Lunch Break', file: 'Break', mins: 45 },
+                    { id: 's3d1_qgis_intro', name: 'Introduction to QGIS', file: 'Installation', mins: 45 },
+                    { id: 's3d1_qgis_int', name: 'QGIS Interaction', file: 'Hands-on', mins: 30 },
+                    { id: 's3d1_data', name: 'Dataset Interaction & Share', file: 'Recap', mins: 15 }
+                ]
+            },
+            session3_d2: {
+                name: "Session 3: Practical Data (Day 2)",
+                badge: "Session 3 • Day 2",
+                deadline: "15:00",
+                start: "10:00",
+                tasks: [
+                    { id: 's3d2_recap', name: 'Recap: GIS, RS & QGIS', file: 'Review', mins: 20 },
+                    { id: 's3d2_ex1', name: 'Ex 1: Loading & Exploring Data', file: 'Practical', mins: 40 },
+                    { id: 's3d2_break', name: 'Morning Break', file: 'Break', mins: 15 },
+                    { id: 's3d2_ex2', name: 'Ex 2: Data Preprocessing (Vector)', file: 'Practical', mins: 60 },
+                    { id: 's3d2_ex3', name: 'Ex 3: Raster Preprocessing (Clip)', file: 'Practical', mins: 45 },
+                    { id: 's3d2_lunch', name: 'Lunch Break', file: 'Break', mins: 45 },
+                    { id: 's3d2_ex4', name: 'Ex 4: Raster Preprocessing (Cloud)', file: 'Practical', mins: 75 }
                 ]
             }
         };
@@ -543,7 +560,8 @@
             const day = new Date().getDay(); // 0 is Sunday, 1 is Monday, ...
             if (day === 2) return 'session1_p2'; // Tuesday is Part 2
             if (day === 3) return 'session2'; // Wednesday
-            if (day === 4) return 'session3'; // Thursday
+            if (day === 4) return 'session3_d1'; // Thursday
+            if (day === 5) return 'session3_d2'; // Friday
             return 'session1'; // Default to Session 1 P1 for Monday
         }
 

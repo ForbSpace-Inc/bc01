@@ -1,54 +1,65 @@
-# Welcome to Session 3: Python Bridges to GIS
+# Session 3: GIS and Remote Sensing
 
-In this session, we transition from analyzing tables to visualizing the world. We will learn how to bridge Python with **Geographic Information Systems (GIS)** and **Remote Sensing** to analyze satellite imagery and spatial relationships.
-
----
-
-## Learning Objectives
-By the end of this session, you will be able to:
-1. Understand the difference between **Vector** (points/lines) and **Raster** (pixels/images) data.
-2. Build **Interactive Maps** using Folium that users can explore in a browser.
-3. Perform **Spatial Analysis** like nearest neighbor searches and distance calculations.
-4. Use **Machine Learning (DBSCAN)** to identify spatial clusters of infrastructure.
-5. Process **Satellite Imagery** using Rasterio to calculate vegetation health (NDVI).
+Welcome to Session 3. This session focuses on the bridge between traditional data analysis and Geospatial Intelligence. The curriculum is delivered over two intensive days covering theoretical foundations and practical applications.
 
 ---
 
-## Spatial Roadmap
+## Session Schedule
 
-```mermaid
-graph TD
-    A[Start: Spatial Data Basics] --> B[Interactive Mapping with Folium]
-    B --> C[Distance & Isolation Analysis]
-    C --> D[Spatial Clustering - DBSCAN]
-    D --> E[Remote Sensing - NDVI]
-    E --> F[Case Study: Mt. Elgon Analysis]
+### Day 1: 16th April 2026
+**Basics of GIS and Remote Sensing**
 
-    style A fill:#f1f5f9,stroke:#334155
-    style F fill:#dcfce7,stroke:#166534
-```
+| Time | Activity | Details and Resources |
+| :--- | :--- | :--- |
+| 10:00 - 11:00 | **Introduction to GIS** | Basics of GIS and its application |
+| 11:00 - 11:15 | **Break** | Quick recharge |
+| 11:15 - 12:15 | **Intro to Remote Sensing** | Basics of remote sensing and satellite data |
+| 12:15 - 12:45 | **QA** | Open floor for questions |
+| 12:45 - 01:30 | **Lunch Break** | Refuel for the afternoon |
+| 01:30 - 02:15 | **Introduction to QGIS** | Tool introduction and installation |
+| 02:15 - 02:45 | **QGIS Interaction** | Hands-on with QGIS features |
+| 02:45 - 03:00 | **Dataset Interaction** | Recap on datasets and resource sharing |
 
 ---
 
-## What are we bridging today?
-GIS professionals traditionally use desktop software. Today, you will learn the "Python Bridge" — powerful code that allows you to automate these tasks at scale. We will conclude with a real-world case study analyzing the vegetation health of **Mt. Elgon** using Landsat data.
+### Day 2: 17th April 2026
+**Practical Session: Data Processing**
 
-> [!IMPORTANT]
-> **Technical Note:**  
-> This session bridges theory with practice. While our team covers the foundations of GIS, this notebook demonstrates how a Data Engineer uses Python to actually solve spatial problems for agencies like the Kenya Space Agency.
+| Time | Activity | Details and Resources |
+| :--- | :--- | :--- |
+| 10:00 - 10:20 | **Recap** | Review of GIS, RS, and QGIS basics |
+| 10:20 - 11:00 | **Practical Exercise 1** | Loading and Exploring Data; CRS and Validation |
+| 11:00 - 11:15 | **Break** | Quick recharge |
+| 11:15 - 12:15 | **Practical Exercise 2** | Preprocessing (Clipping and Buffering vector data) |
+| 12:15 - 01:00 | **Practical Exercise 3** | Raster Preprocessing (Clipping to AOI) |
+| 01:00 - 01:45 | **Lunch Break** | Refuel for the afternoon |
+| 01:45 - 03:00 | **Practical Exercise 4** | Raster Preprocessing (Cloud Masking) |
 
 ---
 
 ## Progress Checklist
-*Mark these off as you complete the sections in your notebook:*
 
+### Day 1 Goals
+- [ ] Understand Vector vs Raster data models.
+- [ ] Install and configure QGIS Desktop.
+- [ ] Connect to WMS/WFS services the Kenya Space Agency uses.
+
+### Day 2 Goals (Python Bridge)
 - [ ] **Part 1**: From Python to Spatial Data (GeoJSON Structure)
-- [ ] **Part 2**: Interactive Maps with Folium (Markers & Legend)
-- [ ] **Part 3**: Nearest Neighbor & Distance Analysis
+- [ ] **Part 2**: Interactive Maps with Folium (Markers and Legend)
+- [ ] **Part 3**: Nearest Neighbor and Distance Analysis
 - [ ] **Part 4**: Spatial Clustering with DBSCAN (ML)
-- [ ] **Part 5**: Intro to Remote Sensing & Satellite Bands
-- [ ] **Part 5.4**: Calculating NDVI (Vegetation Health)
+- [ ] **Part 5**: Intro to Remote Sensing and Satellite Bands
 - [ ] **Part 6**: Coordinate Reference Systems (CRS)
 
 ---
-**Ready to explore? Open your GIS notebook and let's map it out!**
+
+## Resource Links
+Access the datasets and resources required for both days below:
+
+> [!NOTE]
+> **Data Download:** [Session 3 Datasets and Resources](https://drive.google.com/file/d/1uvn-s0oFpUCQnM8iibcaj61_OVqDP9ri/view?usp=drive_link)  
+> *This folder contains the vector and raster datasets discussed in the practical exercises.*
+
+---
+**Ready to map the future? Let's get started.**

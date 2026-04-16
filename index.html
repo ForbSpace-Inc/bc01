@@ -467,7 +467,7 @@
 
             <!-- Session 3 -->
             <div class="nav-group">
-                <div class="nav-title" onclick="loadFile(sessions.s3_intro, 'Session 3')">Session 3: Geospatial</div>
+                <div class="nav-title" onclick="loadFile(sessions.s3_intro, 'Session 3 GIS & RS')">Session 3: GIS & RS</div>
                 <ul class="nav-list" id="session3-list"></ul>
             </div>
         </nav>
@@ -481,7 +481,7 @@
         <div class="content-body" id="main-content">
             <!-- Locked Overlay for when someone tries to force click -->
             <div id="locked-message" style="display:none; text-align:center; padding: 4rem 2rem; border: 2px dashed var(--border); border-radius: 1rem; background: #f8fafc; margin-top: 2rem;">
-                <span style="font-size: 3rem; margin-bottom: 1rem; display: block;">🔒</span>
+                <span style="font-size: 3rem; margin-bottom: 1rem; display: block; opacity: 0.2">LOCKED</span>
                 <h3>This Content is Locked</h3>
                 <p id="lock-details" style="color: var(--text-secondary);">Available on Wednesday, April 15th.</p>
             </div>
@@ -629,17 +629,7 @@
                 }
             ],
             s3: [
-                { name: 'session3_python_gis.ipynb', path: 'session3_part/session3_python_gis.ipynb', type: 'notebook', locked: false },
-                { 
-                    name: 'aerodromes-ke.geojson', 
-                    path: 'session3_part/aerodromes-ke.geojson', 
-                    type: 'geo', 
-                    locked: false,
-                    instructions: {
-                        concepts: 'Comprehensive spatial dataset of Kenyan aerodromes, including international airports and local airstrips. Essential for geospatial analysis and aviation data engineering.',
-                        activity: '<b>Available Columns:</b><br>• <b>ICAO_Code</b>: Unique 4-letter identifier<br>• <b>Type</b>: Classification (e.g., ARP)<br>• <b>Elevation</b>: Height in Feet/Meters<br>• <b>Admin_Company</b>: Managing Authority<br>• <b>Traffic_Permitted</b>: Operational status (IFR/VFR)'
-                    }
-                }
+                { name: 'Introduction & Day 1', path: 'session3_part/introduction.md', type: 'md' }
             ]
         };
         
@@ -983,7 +973,7 @@
 
         // Initialize view: Load Session 2 Introduction by default
         renderSidebar();
-        loadFile(sessions.s2_intro, 'Session 2');
+        loadFile(sessions.s3_intro, 'Session 3');
     </script>
 </body>
 </html>
